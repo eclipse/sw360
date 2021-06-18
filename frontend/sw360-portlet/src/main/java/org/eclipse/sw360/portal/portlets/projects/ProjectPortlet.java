@@ -94,6 +94,7 @@ import static org.eclipse.sw360.datahandler.common.SW360Utils.printName;
 import static org.eclipse.sw360.datahandler.common.WrappedException.wrapTException;
 import static org.eclipse.sw360.portal.common.PortalConstants.*;
 import static org.eclipse.sw360.portal.portlets.projects.ProjectPortletUtils.isUsageEquivalent;
+import org.apache.thrift.transport.TTransportException;
 
 @org.osgi.service.component.annotations.Component(
     immediate = true,
@@ -153,7 +154,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final TSerializer THRIFT_JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+    private static TSerializer THRIFT_JSON_SERIALIZER = null;
 
     public static final String LICENSE_STORE_KEY_PREFIX = "license-store-";
 
@@ -1230,6 +1231,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
         final AttachmentService.Iface attachmentClient = thriftClients.makeAttachmentClient();
 
         try {
+            THRIFT_JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
             List<AttachmentUsage> usages = attachmentClient.getUsedAttachments(Source.projectId(projectId),
                     filter);
             String serializedUsages = usages.stream()

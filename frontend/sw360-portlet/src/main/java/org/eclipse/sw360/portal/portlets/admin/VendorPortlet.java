@@ -56,6 +56,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.eclipse.sw360.datahandler.common.SW360Constants.CONTENT_TYPE_OPENXML_SPREADSHEET;
 import static org.eclipse.sw360.portal.common.PortalConstants.*;
 
+import org.apache.thrift.transport.TTransportException;
+
 @org.osgi.service.component.annotations.Component(
     immediate = true,
     properties = {
@@ -79,7 +81,7 @@ public class VendorPortlet extends Sw360Portlet {
     private static final Logger log = LogManager.getLogger(VendorPortlet.class);
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
-    private static final TSerializer JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+    private static TSerializer JSON_THRIFT_SERIALIZER = null;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**
@@ -301,10 +303,10 @@ public class VendorPortlet extends Sw360Portlet {
         jsonGenerator.writeEndObject();
     }
 
-    private void generateCompareEditorForWizardStep1(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException {
+    private void generateCompareEditorForWizardStep1(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException, TTransportException  {
         String vendorTargetId = request.getParameter(VENDOR_TARGET_ID);
         String vendorSourceId = request.getParameter(VENDOR_SOURCE_ID);
-
+        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         VendorService.Iface client = thriftClients.makeVendorClient();
         Vendor vendorTarget = client.getByID(vendorTargetId);
         Vendor vendorSource = client.getByID(vendorSourceId);
@@ -323,10 +325,10 @@ public class VendorPortlet extends Sw360Portlet {
     }
 
     private void generateResultPreviewForWizardStep2(ActionRequest request, JsonGenerator jsonGenerator)
-            throws IOException, TException {
+            throws IOException, TException, TTransportException {
         Vendor vendorSelection = OBJECT_MAPPER.readValue(request.getParameter(VENDOR_SELECTION), Vendor.class);
         String vendorSourceId = request.getParameter(VENDOR_SOURCE_ID);
-        
+        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         jsonGenerator.writeStartObject();
 
         // adding common title

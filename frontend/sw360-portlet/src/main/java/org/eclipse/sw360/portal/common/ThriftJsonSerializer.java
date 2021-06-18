@@ -22,7 +22,7 @@ import org.apache.thrift.TSerializer;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 
 import java.io.IOException;
-
+import org.apache.thrift.transport.TTransportException;
 /**
  *
  * @author cedric.bodet@tngtech.com
@@ -57,7 +57,11 @@ public class ThriftJsonSerializer {
 
         public TBaseSerializer() {
             // Initialize the serializer with the standard protocol
+            try {
             serializer = new TSerializer(new TSimpleJSONProtocol.Factory());
+            }catch (TTransportException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

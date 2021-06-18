@@ -19,7 +19,11 @@ import org.eclipse.sw360.datahandler.thrift.health.Status;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
+/* import org.springframework.boot.context.embedded.LocalServerPort;
+ * the above package is commneted for spring 2.17 migration,
+ * since the package in spring boot 2 has changed to below
+ * import org.springframework.boot.web.server.LocalServerPort;*/
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;

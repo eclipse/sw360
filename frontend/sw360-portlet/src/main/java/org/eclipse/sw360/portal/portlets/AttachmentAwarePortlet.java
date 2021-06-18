@@ -50,6 +50,8 @@ import static org.eclipse.sw360.datahandler.common.CommonUtils.nullToEmptyList;
 import static org.eclipse.sw360.datahandler.common.CommonUtils.nullToEmptySet;
 import static org.eclipse.sw360.portal.common.PortalConstants.*;
 
+import org.apache.thrift.transport.TTransportException;
+
 /**
  * Attachment portlet implementation
  *
@@ -64,7 +66,7 @@ public abstract class AttachmentAwarePortlet extends Sw360Portlet {
     private static final Logger log = LogManager.getLogger(AttachmentAwarePortlet.class);
 
     private static class AttachmentSerializer extends StdSerializer<Attachment> {
-        private static final TSerializer JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+        private static TSerializer JSON_SERIALIZER = null;
 
         public AttachmentSerializer(Class<Attachment> clazz) {
             super(clazz);
@@ -74,8 +76,9 @@ public abstract class AttachmentAwarePortlet extends Sw360Portlet {
         public void serialize(Attachment attachment, JsonGenerator jsonGenerator, SerializerProvider provider)
                 throws IOException, JsonGenerationException {
             try {
+                JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
                 jsonGenerator.writeRawValue(JSON_SERIALIZER.toString(attachment));
-            } catch (TException exception) {
+            } catch (Exception exception) {
                 throw new JsonGenerationException(exception);
             }
         }
