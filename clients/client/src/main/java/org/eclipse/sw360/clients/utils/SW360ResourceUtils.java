@@ -24,6 +24,9 @@ import org.eclipse.sw360.clients.rest.resource.projects.SW360ProjectListEmbedded
 import org.eclipse.sw360.clients.rest.resource.releases.SW360ReleaseList;
 import org.eclipse.sw360.clients.rest.resource.releases.SW360ReleaseListEmbedded;
 import org.eclipse.sw360.clients.rest.resource.releases.SW360SparseRelease;
+import org.eclipse.sw360.clients.rest.resource.vulnerabilities.SW360Vulnerability;
+import org.eclipse.sw360.clients.rest.resource.vulnerabilities.SW360VulnerabilityList;
+import org.eclipse.sw360.clients.rest.resource.vulnerabilities.SW360VulnerabilityListEmbedded;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,17 @@ public class SW360ResourceUtils {
      */
     public static List<SW360Project> getSw360Projects(SW360ProjectList response) {
         return extractEmbeddedList(response, SW360ProjectListEmbedded::getProjects);
+    }
+
+    /**
+     * An extractor function to obtain embedded vulnerability data from a server
+     * response.
+     *
+     * @param response the de-serialized server response
+     * @return a list with the vulnerability contained in the response
+     */
+    public static List<SW360Vulnerability> getSw360Vulnerabilities(SW360VulnerabilityList response) {
+        return extractEmbeddedList(response, SW360VulnerabilityListEmbedded::getVulnerabilities);
     }
 
     /**

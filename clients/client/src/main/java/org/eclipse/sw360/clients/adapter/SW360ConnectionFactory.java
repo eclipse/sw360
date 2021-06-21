@@ -17,6 +17,7 @@ import org.eclipse.sw360.clients.rest.SW360ComponentClient;
 import org.eclipse.sw360.clients.rest.SW360LicenseClient;
 import org.eclipse.sw360.clients.rest.SW360ProjectClient;
 import org.eclipse.sw360.clients.rest.SW360ReleaseClient;
+import org.eclipse.sw360.clients.rest.SW360VulnerabilityClient;
 
 /**
  * <p>
@@ -69,6 +70,12 @@ public class SW360ConnectionFactory {
                 SyncClientAdapterHandler.newHandler(SW360ProjectClientAdapter.class,
                         SW360ProjectClientAdapterAsync.class, projectAdapterAsync);
 
+        SW360VulnerabilityClient vulnerabilityClient = new SW360VulnerabilityClient(config, tokenProvider);
+        SW360VulnerabilityClientAdapterAsync vulnerabilityAdapterAsync = new SW360VulnerabilityClientAdapterAsyncImpl(vulnerabilityClient);
+        SW360VulnerabilityClientAdapter vulnerabilityAdapterSync =
+                SyncClientAdapterHandler.newHandler(SW360VulnerabilityClientAdapter.class,
+                        SW360VulnerabilityClientAdapterAsync.class, vulnerabilityAdapterAsync);
+
         return new SW360Connection() {
             @Override
             public SW360ComponentClientAdapter getComponentAdapter() {
@@ -108,6 +115,11 @@ public class SW360ConnectionFactory {
             @Override
             public SW360ProjectClientAdapterAsync getProjectAdapterAsync() {
                 return projectAdapterAsync;
+            }
+
+            @Override
+            public SW360VulnerabilityClientAdapterAsync getVulnerabilityAdapterAsync() {
+                return vulnerabilityAdapterAsync;
             }
         };
     }
