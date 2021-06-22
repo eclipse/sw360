@@ -162,20 +162,6 @@ public class Sw360ReleaseService implements AwareOfRestServices<Release> {
         ComponentService.Iface sw360ComponentClient = getThriftComponentClient();
         rch.checkForCyclicOrInvalidDependencies(sw360ComponentClient, release, sw360User);
 
-        List <String> licenseIncorrect = new ArrayList<>();
-        if (!release.getMainLicenseIds().isEmpty()) {
-            for (String licenseId : release.getMainLicenseIds()) {
-                try {
-                    licenseService.getLicenseById(licenseId);
-                } catch (Exception e) {
-                    licenseIncorrect.add(licenseId);
-                }
-            }
-        }
-        if (!licenseIncorrect.isEmpty()) {
-            throw new HttpMessageNotReadableException("License with ids " + licenseIncorrect + " not existed.");
-        }
-
         RequestStatus requestStatus = sw360ComponentClient.updateRelease(release, sw360User);
         if (requestStatus == RequestStatus.INVALID_INPUT) {
             throw new HttpMessageNotReadableException("Dependent document Id/ids not valid.");
@@ -586,6 +572,22 @@ public class Sw360ReleaseService implements AwareOfRestServices<Release> {
         }
 
         return RequestStatus.PROCESSING;
+    }
+
+    public void checkLicenseId(Release release) {
+        List <String> licenseIncorrect = new ArrayList<>();
+        if (!release.getMainLicenseIds().isEmpty()) {
+            for (String licenseId : release.getMainLicenseIds()) {
+                try {
+                    licenseService.getLicenseById(licenseId);
+                } catch (Exception e) {
+                    licenseIncorrect.add(licenseId);
+                }
+            }
+        }
+        if (!licenseIncorrect.isEmpty()) {
+            throw new HttpMessageNotReadableException("License with ids " + licenseIncorrect + " not existed.");
+        }
     }
 
     private Object[] checkScanCompletedSuccessfully(FossologyService.Iface sw360FossologyClient, String scanJobId,

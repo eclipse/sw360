@@ -242,6 +242,7 @@ public class ReleaseController implements ResourceProcessor<RepositoryLinksResou
         updateRelease.setClearingState(sw360Release.getClearingState());
         sw360Release = this.restControllerHelper.updateRelease(sw360Release, updateRelease);
         releaseService.setComponentNameAsReleaseName(sw360Release, user);
+        releaseService.checkLicenseId(sw360Release);
         RequestStatus updateReleaseStatus = releaseService.updateRelease(sw360Release, user);
         HalResource<Release> halRelease = createHalReleaseResource(sw360Release, true);
         if (updateReleaseStatus == RequestStatus.SENT_TO_MODERATOR) {
@@ -270,6 +271,7 @@ public class ReleaseController implements ResourceProcessor<RepositoryLinksResou
         }
 
         if (release.getMainLicenseIds() != null) {
+            releaseService.checkLicenseId(release);
             Set<String> mainLicenseIds = new HashSet<>();
             Set<String> mainLicenseUris = release.getMainLicenseIds();
             for (String licenseURIString : mainLicenseUris.toArray(new String[mainLicenseUris.size()])) {
