@@ -21,6 +21,7 @@ import org.eclipse.sw360.datahandler.db.ProjectDatabaseHandler;
 import org.eclipse.sw360.datahandler.entitlement.ProjectModerator;
 import org.eclipse.sw360.datahandler.thrift.RequestStatus;
 import org.eclipse.sw360.datahandler.thrift.SW360Exception;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.users.User;
@@ -307,7 +308,7 @@ public class ProjectHandlerTest {
     public void testDontDeleteUsedProject1_1() throws Exception {
 
         final Project p1 = handler.getProjectById("P1", user1);
-        p1.setLinkedProjects(ImmutableMap.of("P2", ProjectRelationship.CONTAINED));
+        p1.setLinkedProjects(ImmutableMap.of("P2", new ProjectProjectRelationship(ProjectRelationship.CONTAINED)));
         handler.updateProject(p1,user1);
 
         RequestStatus status = handler.deleteProject("P2", user2);

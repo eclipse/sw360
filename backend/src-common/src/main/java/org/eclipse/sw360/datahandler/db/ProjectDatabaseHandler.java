@@ -772,13 +772,13 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
     public List<ProjectLink> getLinkedProjects(Project project, boolean deep, User user) {
         Deque<String> visitedIds = new ArrayDeque<>();
 
-        Map<String, ProjectRelationship> fakeRelations = new HashMap<>();
-        fakeRelations.put(project.isSetId() ? project.getId() : DUMMY_NEW_PROJECT_ID, ProjectRelationship.UNKNOWN);
+        Map<String, ProjectProjectRelationship> fakeRelations = new HashMap<>();
+        fakeRelations.put(project.isSetId() ? project.getId() : DUMMY_NEW_PROJECT_ID, new ProjectProjectRelationship(ProjectRelationship.UNKNOWN));
         List<ProjectLink> out = iterateProjectRelationShips(fakeRelations, null, visitedIds, deep ? -1 : 2, user);
         return out;
     }
 
-    public List<ProjectLink> getLinkedProjects(Map<String, ProjectRelationship> relations, User user) {
+    public List<ProjectLink> getLinkedProjects(Map<String, ProjectProjectRelationship> relations, User user) {
         List<ProjectLink> out;
 
         Deque<String> visitedIds = new ArrayDeque<>();
@@ -787,10 +787,10 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
         return out;
     }
 
-    private List<ProjectLink> iterateProjectRelationShips(Map<String, ProjectRelationship> relations,
+    private List<ProjectLink> iterateProjectRelationShips(Map<String, ProjectProjectRelationship> relations,
             String parentNodeId, Deque<String> visitedIds, int maxDepth, User user) {
         List<ProjectLink> out = new ArrayList<>();
-        for (Map.Entry<String, ProjectRelationship> entry : relations.entrySet()) {
+        for (Map.Entry<String, ProjectProjectRelationship> entry : relations.entrySet()) {
             Optional<ProjectLink> projectLinkOptional = createProjectLink(entry.getKey(), entry.getValue(),
                     parentNodeId, visitedIds, maxDepth, user);
             projectLinkOptional.ifPresent(out::add);
@@ -799,7 +799,7 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
         return out;
     }
 
-    private Optional<ProjectLink> createProjectLink(String id, ProjectRelationship relationship, String parentNodeId,
+    private Optional<ProjectLink> createProjectLink(String id, ProjectProjectRelationship projectProjectRelationship, String parentNodeId,
             Deque<String> visitedIds, int maxDepth, User user) {
         ProjectLink projectLink = null;
         if (!visitedIds.contains(id) && (maxDepth < 0 || visitedIds.size() < maxDepth)) {
@@ -822,7 +822,8 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
                 projectLink
                         .setNodeId(generateNodeId(id))
                         .setParentNodeId(parentNodeId)
-                        .setRelation(relationship)
+                        .setRelation(projectProjectRelationship.getProjectRelationship())
+                        .setEnableSvm(projectProjectRelationship.isEnableSvm())
                         .setVersion(project.getVersion())
                         .setState(project.getState())
                         .setProjectType(project.getProjectType())
@@ -1036,7 +1037,7 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
             releaseIdToProjects.put(releaseId, new ProjectWithReleaseRelationTuple(project, relation));
         });
 
-        Map<String, ProjectRelationship> linkedProjects = project.getLinkedProjects();
+        Map<String, ProjectProjectRelationship> linkedProjects = project.getLinkedProjects();
         if (linkedProjects != null) {
 
                 for (String projectId : linkedProjects.keySet()) {
@@ -1397,7 +1398,7 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
         LinkedHashMap<String, String> projectOrigin = new LinkedHashMap<>();
         projectOrigin.put(projectId, SW360Utils.printName(projectById));
         LinkedHashMap<String, String> releaseOrigin = new LinkedHashMap<>();
-        Map<String, ProjectRelationship> linkedProjects = projectById.getLinkedProjects();
+        Map<String, ProjectProjectRelationship> linkedProjects = projectById.getLinkedProjects();
         Map<String, ProjectReleaseRelationship> releaseIdToUsage = projectById.getReleaseIdToUsage();
         if (linkedProjects != null && !linkedProjects.isEmpty()) {
             flattenClearingStatusForLinkedProject(linkedProjects, projectOrigin, releaseOrigin, clearingStatusList,
@@ -1410,19 +1411,19 @@ public class ProjectDatabaseHandler extends AttachmentAwareDatabaseHandler {
         return clearingStatusList;
     }
 
-    private void flattenClearingStatusForLinkedProject(Map<String, ProjectRelationship> linkedProjects,
+    private void flattenClearingStatusForLinkedProject(Map<String, ProjectProjectRelationship> linkedProjects,
             LinkedHashMap<String, String> projectOrigin, LinkedHashMap<String, String> releaseOrigin,
             List<Map<String, String>> clearingStatusList, User user) {
 
         linkedProjects.entrySet().stream().forEach(lp -> wrapTException(() -> {
             String projId = lp.getKey();
-            String relation = ThriftEnumUtils.enumToString(lp.getValue());
+            String relation = ThriftEnumUtils.enumToString(lp.getValue().getProjectRelationship());
             if (projectOrigin.containsKey(projId))
                 return;
             Project linkedProjectById = getProjectById(projId, user);
             projectOrigin.put(projId, SW360Utils.printName(linkedProjectById));
             Map<String, String> row = createProjectCSRow(relation, linkedProjectById, clearingStatusList);
-            Map<String, ProjectRelationship> subprojects = linkedProjectById.getLinkedProjects();
+            Map<String, ProjectProjectRelationship> subprojects = linkedProjectById.getLinkedProjects();
             Map<String, ProjectReleaseRelationship> linkedReleases = linkedProjectById.getReleaseIdToUsage();
 
             if (linkedReleases != null && !linkedReleases.isEmpty()) {

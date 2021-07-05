@@ -11,12 +11,18 @@
 <%@ page import="org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship" %>
 
 <h4><liferay-ui:message key="linked.projects" /></h4>
-<table class="table edit-table three-columns-with-actions" id="LinkedProjectsInfo">
+<table class="table edit-table four-columns-with-actions" id="LinkedProjectsInfo">
+    <col style="width:30%">
+    <col style="width:26%">
+    <col style="width:30%">
+    <col style="width:7%">
+    <col style="width:7%">
     <thead>
         <tr>
             <th><liferay-ui:message key="project.name" /></th>
             <th><liferay-ui:message key="project.version" /></th>
             <th><liferay-ui:message key="project.relation" /> <sw360:DisplayEnumInfo type="<%=ProjectRelationship.class%>"/></th>
+            <th><liferay-ui:message key="enable.svm" /></th>
             <th></th>
         </tr>
     </thead>

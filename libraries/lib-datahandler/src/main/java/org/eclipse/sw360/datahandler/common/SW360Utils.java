@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import org.eclipse.sw360.datahandler.couchdb.DatabaseMixInForChangeLog.ProjectProjectRelationshipMixin;
 import org.eclipse.sw360.datahandler.thrift.*;
 import org.eclipse.sw360.datahandler.thrift.attachments.Attachment;
 import org.eclipse.sw360.datahandler.thrift.attachments.AttachmentType;
@@ -96,6 +97,7 @@ public class SW360Utils {
     static{
         objectMapper = new ObjectMapper();
         SimpleModule customModule = new SimpleModule("SW360 serializers");
+        customModule.setMixInAnnotation(ProjectProjectRelationship.class, ProjectProjectRelationshipMixin.class);
         customModule.addSerializer(TEnum.class, new TEnumSerializer());
         customModule.addSerializer(ProjectReleaseRelationship.class, new ProjectReleaseRelationshipSerializer());
         objectMapper.registerModule(customModule);

@@ -16,6 +16,7 @@ import org.eclipse.sw360.datahandler.thrift.*;
 import org.eclipse.sw360.datahandler.thrift.attachments.*;
 import org.eclipse.sw360.datahandler.thrift.components.ReleaseLink;
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseNameWithText;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectLink;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
@@ -138,13 +139,17 @@ public class ProjectPortletUtils {
         }
     }
 
-    private static void updateLinkedProjectsFromRequest(PortletRequest request, Map<String, ProjectRelationship> linkedProjects) {
+    private static void updateLinkedProjectsFromRequest(PortletRequest request, Map<String, ProjectProjectRelationship> linkedProjects) {
         linkedProjects.clear();
         String[] ids = request.getParameterValues(Project._Fields.LINKED_PROJECTS.toString() + ProjectLink._Fields.ID.toString());
         String[] relations = request.getParameterValues(Project._Fields.LINKED_PROJECTS.toString() + ProjectLink._Fields.RELATION.toString());
         if (ids != null && relations != null && ids.length == relations.length)
             for (int k = 0; k < ids.length; ++k) {
-                linkedProjects.put(ids[k], ProjectRelationship.findByValue(Integer.parseInt(relations[k])));
+                String enableSvm = request.getParameter(Project._Fields.LINKED_PROJECTS.toString()
+                        + ProjectLink._Fields.ENABLE_SVM.toString() + ids[k]);
+                linkedProjects.put(ids[k],
+                        new ProjectProjectRelationship(ProjectRelationship.findByValue(Integer.parseInt(relations[k])))
+                                .setEnableSvm(enableSvm != null));
             }
     }
 

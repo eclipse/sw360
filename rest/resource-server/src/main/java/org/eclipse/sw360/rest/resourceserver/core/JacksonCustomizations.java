@@ -30,8 +30,8 @@ import org.eclipse.sw360.datahandler.thrift.components.*;
 import org.eclipse.sw360.datahandler.thrift.licenses.License;
 import org.eclipse.sw360.datahandler.thrift.licenses.Obligation;
 import org.eclipse.sw360.datahandler.thrift.projects.ClearingRequest;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
-import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectState;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectType;
 import org.eclipse.sw360.datahandler.thrift.search.SearchResult;
@@ -89,6 +89,7 @@ public class JacksonCustomizations {
             setMixInAnnotation(ProjectReleaseRelationship.class, Sw360Module.ProjectReleaseRelationshipMixin.class);
             setMixInAnnotation(ReleaseVulnerabilityRelation.class, Sw360Module.ReleaseVulnerabilityRelationMixin.class);
             setMixInAnnotation(VerificationStateInfo.class, Sw360Module.VerificationStateInfoMixin.class);
+            setMixInAnnotation(ProjectProjectRelationship.class, Sw360Module.ProjectProjectRelationshipMixin.class);
         }
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -194,7 +195,7 @@ public class JacksonCustomizations {
             @Override
             @JsonSerialize(using = JsonProjectRelationSerializer.class)
             @JsonProperty("linkedProjects")
-            abstract public Map<String, ProjectRelationship> getLinkedProjects();
+            abstract public Map<String, ProjectProjectRelationship> getLinkedProjects();
 
             @Override
             @JsonSerialize(using = JsonReleaseRelationSerializer.class)
@@ -1087,6 +1088,14 @@ public class JacksonCustomizations {
             "setVerificationState"
         })
         public static abstract class VerificationStateInfoMixin extends VerificationStateInfo {
+        }
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonIgnoreProperties({
+            "setEnableSvm",
+            "setProjectRelationship"
+        })
+        public static abstract class ProjectProjectRelationshipMixin extends ProjectProjectRelationship {
         }
     }
 }

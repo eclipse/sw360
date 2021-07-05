@@ -91,7 +91,7 @@ public class ProjectDatabaseHandlerTest {
                         .put("r1", new ProjectReleaseRelationship(ReleaseRelationship.CONTAINED, MainlineState.MAINLINE))
                         .put("r2", new ProjectReleaseRelationship(ReleaseRelationship.CONTAINED, MainlineState.MAINLINE))
                         .build())
-                .setLinkedProjects(ImmutableMap.<String, ProjectRelationship>builder().put("P5", ProjectRelationship.CONTAINED).build());
+                .setLinkedProjects(ImmutableMap.<String, ProjectProjectRelationship>builder().put("P5", new ProjectProjectRelationship(ProjectRelationship.CONTAINED)).build());
         projects.add(p4);
         projects.add(new Project().setId("P5").setName("Project5").setBusinessUnit("AB CD EF").setCreatedBy("user1"));
 
@@ -342,7 +342,7 @@ public class ProjectDatabaseHandlerTest {
     @Test
     public void testReleaseIdToProjects() throws Exception {
         Project p1 = handler.getProjectById("P1", user1);
-        p1.setLinkedProjects(ImmutableMap.<String, ProjectRelationship>builder().put("P2", ProjectRelationship.CONTAINED).build());
+        p1.setLinkedProjects(ImmutableMap.<String, ProjectProjectRelationship>builder().put("P2", new ProjectProjectRelationship(ProjectRelationship.CONTAINED)).build());
         handler.updateProject(p1, user1);
         Project p2 = handler.getProjectById("P2", user2);
 

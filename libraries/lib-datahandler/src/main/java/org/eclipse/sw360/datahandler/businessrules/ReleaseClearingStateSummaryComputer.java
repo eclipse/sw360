@@ -36,6 +36,9 @@ public class ReleaseClearingStateSummaryComputer {
         }
 
         for (Release release : releases) {
+            if (release == null) {
+                continue;
+            }
             if (release.getClearingState() == null) {
                 summary.newRelease++;
             } else {
