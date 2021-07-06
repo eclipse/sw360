@@ -58,9 +58,9 @@ public class ThriftJsonSerializer {
         public TBaseSerializer() {
             // Initialize the serializer with the standard protocol
             try {
-            serializer = new TSerializer(new TSimpleJSONProtocol.Factory());
-            }catch (TTransportException e) {
-                e.printStackTrace();
+                serializer = new TSerializer(new TSimpleJSONProtocol.Factory());
+            } catch (TTransportException e) {
+                log.error("Error creating TSerializer " + e);
             }
         }
 

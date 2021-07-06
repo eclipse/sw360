@@ -124,7 +124,7 @@ public class ComponentPortlet extends FossologyAwarePortlet {
     private static final Logger log = LogManager.getLogger(ComponentPortlet.class);
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
-    private static TSerializer JSON_THRIFT_SERIALIZER = null;
+    private static final TSerializer JSON_THRIFT_SERIALIZER = getJsonSerializer();
 
     // Component view datatables, index of columns
     private static final int COMPONENT_NO_SORT = -1;
@@ -490,13 +490,12 @@ public class ComponentPortlet extends FossologyAwarePortlet {
 
         List<Project> projects = utils.searchProjects(user, searchTerm);
         try {
-            JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
             String serializedProjects = projects.stream()
                     .map(project -> wrapTException(() -> JSON_THRIFT_SERIALIZER.toString(project)))
                     .collect(Collectors.joining(",", "[", "]"));
 
             writeJSON(request, response, serializedProjects);
-        } catch (IOException | WrappedTException | TTransportException exception) {
+        } catch (IOException | WrappedTException exception) {
             log.error("cannot retrieve information about projects.", exception.getCause());
             response.setProperty(ResourceResponse.HTTP_STATUS_CODE, "500");
         }
@@ -954,11 +953,10 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         jsonGenerator.writeEndObject();
     }
 
-    private void generateComponentMergeWizardStep1Response(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException, TTransportException {
+    private void generateComponentMergeWizardStep1Response(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException {
         User sessionUser = UserCacheHolder.getUserFromRequest(request);
         String componentTargetId = request.getParameter(COMPONENT_TARGET_ID);
         String componentSourceId = request.getParameter(COMPONENT_SOURCE_ID);
-        JSON_THRIFT_SERIALIZER =  new TSerializer(new TSimpleJSONProtocol.Factory());
         ComponentService.Iface cClient = thriftClients.makeComponentClient();
         Component componentTarget = cClient.getComponentById(componentTargetId, sessionUser);
         Component componentSource = cClient.getComponentById(componentSourceId, sessionUser);
@@ -977,7 +975,6 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         Component componentSelection = OBJECT_MAPPER.readValue(request.getParameter(COMPONENT_SELECTION),
                 Component.class);
         String componentSourceId = request.getParameter(COMPONENT_SOURCE_ID);
-        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         // FIXME: maybe validate the component
 
         jsonGenerator.writeStartObject();
@@ -1020,8 +1017,7 @@ public class ComponentPortlet extends FossologyAwarePortlet {
     }
 
     private void generateComponentSplitWizardStep2Response(ActionRequest request, JsonGenerator jsonGenerator)
-            throws IOException, TException, TTransportException {
-        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+            throws IOException, TException {
         Component srcComponent = OBJECT_MAPPER.readValue(request.getParameter(SOURCE_COMPONENT), Component.class);
         Component targetComponent = OBJECT_MAPPER.readValue(request.getParameter(TARGET_COMPONENT), Component.class);
         jsonGenerator.writeStartObject();
@@ -1139,7 +1135,7 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         jsonGenerator.writeEndObject();
     }
 
-    private void generateReleaseMergeWizardStep1Response(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException, TTransportException {
+    private void generateReleaseMergeWizardStep1Response(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException {
         User sessionUser = UserCacheHolder.getUserFromRequest(request);
         String releaseTargetId = request.getParameter(RELEASE_TARGET_ID);
         String releaseSourceId = request.getParameter(RELEASE_SOURCE_ID);
@@ -1152,7 +1148,6 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         boolean matchingPair = false;
         boolean foundSourceAttachments = false;
         Set<String> attachmentHashes = new HashSet<>();
-        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         for(Attachment attachment : nullToEmptySet(releaseTarget.getAttachments())) {
             if(attachment.getAttachmentType().equals(AttachmentType.SOURCE) || attachment.getAttachmentType().equals(AttachmentType.SOURCE_SELF)) {
                 attachmentHashes.add(attachment.getSha1());
@@ -1245,11 +1240,10 @@ public class ComponentPortlet extends FossologyAwarePortlet {
     }
 
     private void generateReleaseMergeWizardStep2Response(ActionRequest request, JsonGenerator jsonGenerator)
-            throws IOException, TException, TTransportException {
+            throws IOException, TException {
         Release releaseSelection = OBJECT_MAPPER.readValue(request.getParameter(RELEASE_SELECTION),
                 Release.class);
         String releaseSourceId = request.getParameter(RELEASE_SOURCE_ID);
-        JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         // FIXME: maybe validate the component
 
         jsonGenerator.writeStartObject();

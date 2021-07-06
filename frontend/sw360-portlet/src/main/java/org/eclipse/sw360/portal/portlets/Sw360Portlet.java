@@ -44,6 +44,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.thrift.TException;
+import org.apache.thrift.TSerializer;
+import org.apache.thrift.protocol.TSimpleJSONProtocol;
+import org.apache.thrift.transport.TTransportException;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
@@ -64,7 +67,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 abstract public class Sw360Portlet extends MVCPortlet {
     private static final int MAX_LENGTH_USERS_IN_DISPLAY = 100;
 
-    protected final Logger log = LogManager.getLogger(this.getClass());
+    protected static final Logger log = LogManager.getLogger(Sw360Portlet.class);
     protected final ThriftClients thriftClients;
 
     protected Sw360Portlet() {
@@ -424,5 +427,14 @@ abstract public class Sw360Portlet extends MVCPortlet {
 
         final ByteArrayInputStream zipFile = new ByteArrayInputStream(outB.toByteArray());
         PortletResponseUtil.sendFile(request, response, "LicensesBackup.lics", zipFile, "application/zip");
+    }
+
+    public static TSerializer getJsonSerializer() {
+        try {
+            return new TSerializer(new TSimpleJSONProtocol.Factory());
+        } catch (TTransportException e) {
+            log.error("Error creating TSerializer " + e);
+        }
+        return null;
     }
 }

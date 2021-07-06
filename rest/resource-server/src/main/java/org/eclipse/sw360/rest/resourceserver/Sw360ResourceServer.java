@@ -21,7 +21,6 @@ import org.eclipse.sw360.rest.resourceserver.security.apiToken.ApiTokenAuthentic
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-//import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;

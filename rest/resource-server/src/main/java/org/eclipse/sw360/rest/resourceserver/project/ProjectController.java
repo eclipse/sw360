@@ -126,7 +126,7 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
     public static final String PROJECTS_URL = "/projects";
     public static final String SW360_ATTACHMENT_USAGES = "sw360:attachmentUsages";
     private static final Logger log = LogManager.getLogger(ProjectController.class);
-    private static TSerializer THRIFT_JSON_SERIALIZER = null;
+    private static final TSerializer THRIFT_JSON_SERIALIZER = getJsonSerializer();
     private static final ImmutableMap<Project._Fields, String> mapOfFieldsTobeEmbedded = ImmutableMap.<Project._Fields, String>builder()
             .put(Project._Fields.CLEARING_TEAM, "clearingTeam")
             .put(Project._Fields.EXTERNAL_URLS, "externalUrls")
@@ -783,7 +783,6 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
     @RequestMapping(value = PROJECTS_URL + "/{id}/attachmentUsage", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<Map<String, Object>> getAttachmentUsage(@PathVariable("id") String id)
             throws TException, TTransportException {
-        THRIFT_JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
         List<AttachmentUsage> attachmentUsages = attachmentService.getAllAttachmentUsage(id);
         String prefix = "{\"" + SW360_ATTACHMENT_USAGES + "\":[";
         String serializedUsages = attachmentUsages.stream()
@@ -960,5 +959,14 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
             }
         }
         return true;
+    }
+
+    public static TSerializer getJsonSerializer() {
+        try {
+            return new TSerializer(new TSimpleJSONProtocol.Factory());
+        } catch (TTransportException e) {
+            log.error("Error creating TSerializer " + e);
+        }
+        return null;
     }
 }
