@@ -33,6 +33,7 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -182,6 +183,6 @@ public class ApiSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("profile").description("The profiles of the REST resources")
                         ),
                         responseFields(
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
     }
 }

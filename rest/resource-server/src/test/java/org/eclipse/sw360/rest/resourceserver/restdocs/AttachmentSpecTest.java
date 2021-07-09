@@ -41,6 +41,7 @@ import static org.mockito.Matchers.eq;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -141,9 +142,9 @@ public class AttachmentSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("checkedComment").description("Comment of the checking team"),
                                 fieldWithPath("checkedOn").description("The date the attachment was checked"),
                                 fieldWithPath("checkStatus").description("The checking status. possible values are " + Arrays.asList(CheckStatus.values())),
-                                fieldWithPath("_embedded.createdBy").description("The user who created this attachment"),
-                                fieldWithPath("_embedded.sw360:releases").description("The release this attachment belongs to"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.createdBy").description("The user who created this attachment"),
+                                subsectionWithPath("_embedded.sw360:releases").description("The release this attachment belongs to"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -156,9 +157,9 @@ public class AttachmentSpecTest extends TestRestDocsSpecBase {
                 .andDo(this.documentationHandler.document(
                         links(linkWithRel("curies").description("Curies are used for online documentation")),
                         responseFields(
-                                fieldWithPath("_links")
+                                subsectionWithPath("_links")
                                         .description("<<resources-index-links,Links>> to other resources"),
-                                fieldWithPath("_embedded.sw360:attachments").description(
+                                        subsectionWithPath("_embedded.sw360:attachments").description(
                                         "The collection of <<resources-attachments,Attachment resources>>. In most cases the result should contain either one element or an empty collection. If the same binary file is uploaded and attached to multiple sw360 resources, the collection will contain all the attachments with matching sha1 hash."))))
                 .andReturn();
     }

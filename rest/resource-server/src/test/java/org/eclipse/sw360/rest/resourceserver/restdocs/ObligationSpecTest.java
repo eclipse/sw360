@@ -38,6 +38,7 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -106,9 +107,9 @@ public class ObligationSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:obligations[]title").description("The title of the obligation"),
-                                fieldWithPath("_embedded.sw360:obligations").description("An array of <<resources-obligations, Obligations resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:obligations[]title").description("The title of the obligation"),
+                                subsectionWithPath("_embedded.sw360:obligations").description("An array of <<resources-obligations, Obligations resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -128,7 +129,7 @@ public class ObligationSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("text").description("The text of the obligation"),
                                 fieldWithPath("obligationLevel").description("The level of the obligation: [ORGANISATION_OBLIGATION, PROJECT_OBLIGATION, COMPONENT_OBLIGATION, LICENSE_OBLIGATION]"),
                                 fieldWithPath("obligationType").description("The type of the obligation: [PERMISSION, RISK, EXCEPTION, RESTRICTION, OBLIGATION]"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -159,7 +160,7 @@ public class ObligationSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("text").description("The text of the obligation"),
                                 fieldWithPath("obligationLevel").description("The level of the obligation: [COMPONENT_OBLIGATION, ORGANISATION_OBLIGATION, PROJECT_OBLIGATION, LICENSE_OBLIGATION]"),
                                 fieldWithPath("obligationType").description("The type of the obligation: [RESTRICTION, OBLIGATION, PERMISSION, EXCEPTION, RISK]"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 

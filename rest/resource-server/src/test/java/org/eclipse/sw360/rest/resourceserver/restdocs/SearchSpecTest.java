@@ -14,6 +14,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -97,11 +98,11 @@ public class SearchSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:searchResults[]id").description("The id of the resource"),
-                                fieldWithPath("_embedded.sw360:searchResults[]type").description("The type of the resource"),
-                                fieldWithPath("_embedded.sw360:searchResults[]name").description("The name of the resource"),
-                                fieldWithPath("_embedded.sw360:searchResults").description("An array of <<resources-search, Search resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:searchResults.[]id").description("The id of the resource"),
+                                subsectionWithPath("_embedded.sw360:searchResults.[]type").description("The type of the resource"),
+                                subsectionWithPath("_embedded.sw360:searchResults.[]name").description("The name of the resource"),
+                                subsectionWithPath("_embedded.sw360:searchResults").description("An array of <<resources-search, Search resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of search results per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing search results"),

@@ -34,6 +34,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -108,9 +109,9 @@ public class UserSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:users[]email").description("The user's email"),
-                                fieldWithPath("_embedded.sw360:users").description("An array of <<resources-users, User resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:users[]email").description("The user's email"),
+                                subsectionWithPath("_embedded.sw360:users").description("An array of <<resources-users, User resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -132,10 +133,10 @@ public class UserSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("givenName").description("The user's given name"),
                                 fieldWithPath("lastName").description("The user's last name"),
                                 fieldWithPath("department").description("The user's company department"),
-                                fieldWithPath("secondaryDepartmentsAndRoles").description("The user's secondary departments and roles"),
+                                subsectionWithPath("secondaryDepartmentsAndRoles").description("The user's secondary departments and roles"),
                                 fieldWithPath("formerEmailAddresses").description("The user's former email addresses"),
                                 fieldWithPath("deactivated").description("Is user deactivated"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -157,10 +158,10 @@ public class UserSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("givenName").description("The user's given name"),
                                 fieldWithPath("lastName").description("The user's last name"),
                                 fieldWithPath("department").description("The user's company department"),
-                                fieldWithPath("secondaryDepartmentsAndRoles").description("The user's secondary departments and roles"),
+                                subsectionWithPath("secondaryDepartmentsAndRoles").description("The user's secondary departments and roles"),
                                 fieldWithPath("formerEmailAddresses").description("The user's former email addresses"),
                                 fieldWithPath("deactivated").description("Is user deactivated"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 }

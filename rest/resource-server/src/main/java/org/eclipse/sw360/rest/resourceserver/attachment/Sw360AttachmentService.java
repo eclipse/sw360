@@ -283,6 +283,7 @@ public class Sw360AttachmentService {
     }
 
     private AttachmentService.Iface getThriftAttachmentClient() throws TTransportException {
+        String thriftServerUrl = "http://localhost:8080";
         return thriftAttachmentServiceProvider.getService(thriftServerUrl);
     }
 

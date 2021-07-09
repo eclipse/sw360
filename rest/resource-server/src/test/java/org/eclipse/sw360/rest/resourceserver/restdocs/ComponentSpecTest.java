@@ -267,10 +267,10 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of components per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing components"),
@@ -288,15 +288,15 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
-                                fieldWithPath("_embedded.sw360:projects[]name").description("The name of the project"),
-                                fieldWithPath("_embedded.sw360:projects[]version").description("The project version"),
-                                fieldWithPath("_embedded.sw360:projects[]projectType").description("The project type, possible values are: " + Arrays.asList(ProjectType.values())),
-                                fieldWithPath("_embedded.sw360:projects").description("An array of <<resources-projects, Projects resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:projects.[]name").description("The name of the project"),
+                                subsectionWithPath("_embedded.sw360:projects.[]version").description("The project version"),
+                                subsectionWithPath("_embedded.sw360:projects.[]projectType").description("The project type, possible values are: " + Arrays.asList(ProjectType.values())),
+                                subsectionWithPath("_embedded.sw360:projects").description("An array of <<resources-projects, Projects resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -312,10 +312,10 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -343,12 +343,12 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]ownerGroup").description("The ownerGroup of the component"),
-                                fieldWithPath("_embedded.sw360:components[]ownerCountry").description("The ownerCountry of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]ownerGroup").description("The ownerGroup of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]ownerCountry").description("The ownerCountry of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of components per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing components"),
@@ -379,17 +379,17 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("ownerCountry").description("The owner country of the component"),
                                 fieldWithPath("categories").description("The component categories"),
                                 fieldWithPath("languages").description("The language of the component"),
-                                fieldWithPath("externalIds").description("When components are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
-                                fieldWithPath("additionalData").description("A place to store additional data used by external tools"),
+                                subsectionWithPath("externalIds").description("When components are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
+                                subsectionWithPath("additionalData").description("A place to store additional data used by external tools"),
                                 fieldWithPath("operatingSystems").description("The OS on which the component operates"),
                                 fieldWithPath("mailinglist").description("Component mailing lists"),
                                 fieldWithPath("homepage").description("The homepage url of the component"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
-                                fieldWithPath("_embedded.createdBy").description("The user who created this component"),
-                                fieldWithPath("_embedded.sw360:releases").description("An array of all component releases with version and link to their <<resources-releases,Releases resource>>"),
-                                fieldWithPath("_embedded.sw360:moderators").description("An array of all component moderators with email and link to their <<resources-user-get,User resource>>"),
-                                fieldWithPath("_embedded.sw360:vendors").description("An array of all component vendors with full name and link to their <<resources-vendor-get,Vendor resource>>"),
-                                fieldWithPath("_embedded.sw360:attachments").description("An array of all component attachments and link to their <<resources-attachment-get,Attachment resource>>")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.createdBy").description("The user who created this component"),
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of all component releases with version and link to their <<resources-releases,Releases resource>>"),
+                                subsectionWithPath("_embedded.sw360:moderators").description("An array of all component moderators with email and link to their <<resources-user-get,User resource>>"),
+                                subsectionWithPath("_embedded.sw360:vendors").description("An array of all component vendors with full name and link to their <<resources-vendor-get,Vendor resource>>"),
+                                subsectionWithPath("_embedded.sw360:attachments").description("An array of all component attachments and link to their <<resources-attachment-get,Attachment resource>>")
                         )));
     }
 
@@ -421,8 +421,8 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
                                 fieldWithPath("description").description("The component description"),
                                 fieldWithPath("createdOn").description("The date the component was created"),
-                                fieldWithPath("_embedded.createdBy").description("The user who created this component"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.createdBy").description("The user who created this component"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -449,10 +449,10 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of components per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing components"),
@@ -484,10 +484,10 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of components per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing components"),
@@ -534,10 +534,10 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:attachments").description("An array of <<resources-attachment, Attachments resources>>"),
-                                fieldWithPath("_embedded.sw360:attachments[]filename").description("The attachment filename"),
-                                fieldWithPath("_embedded.sw360:attachments[]sha1").description("The attachment sha1 value"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:attachments").description("An array of <<resources-attachment, Attachments resources>>"),
+                                subsectionWithPath("_embedded.sw360:attachments.[]filename").description("The attachment filename"),
+                                subsectionWithPath("_embedded.sw360:attachments.[]sha1").description("The attachment sha1 value"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -571,7 +571,7 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                         fieldWithPath("checkedBy").description("The email of user who checked the attachment"),
                         fieldWithPath("checkedTeam").description("The department of user who checked the attachment"),
                         fieldWithPath("checkedOn").description("The date when attachment was checked"),
-                        fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                        subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                 )));
     }
 
@@ -594,11 +594,11 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component, optional"),
-                                fieldWithPath("_embedded.sw360:components[]externalIds").description("External Ids of the component. Return as 'Single String' when single value, or 'Array of String' when multi-values"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component, optional"),
+                                subsectionWithPath("_embedded.sw360:components.[]externalIds").description("External Ids of the component. Return as 'Single String' when single value, or 'Array of String' when multi-values"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -631,19 +631,19 @@ public class ComponentSpecTest extends TestRestDocsSpecBase {
                         fieldWithPath("ownerAccountingUnit").description("The owner accounting unit of the component"),
                         fieldWithPath("ownerGroup").description("The owner group of the component"),
                         fieldWithPath("ownerCountry").description("The owner country of the component"),
-                        fieldWithPath("externalIds").description("When projects are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
-                        fieldWithPath("additionalData").description("A place to store additional data used by external tools"),
+                        subsectionWithPath("externalIds").description("When projects are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
+                        subsectionWithPath("additionalData").description("A place to store additional data used by external tools"),
                         fieldWithPath("categories").description("The component categories"),
                         fieldWithPath("languages").description("The language of the component"),
                         fieldWithPath("mailinglist").description("Component mailing lists"),
                         fieldWithPath("operatingSystems").description("The OS on which the component operates"),
                         fieldWithPath("homepage").description("The homepage url of the component"),
-                        fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
-                        fieldWithPath("_embedded.createdBy").description("The user who created this component"),
-                        fieldWithPath("_embedded.sw360:releases").description("An array of all component releases with version and link to their <<resources-releases,Releases resource>>"),
-                        fieldWithPath("_embedded.sw360:moderators").description("An array of all component moderators with email and link to their <<resources-user-get,User resource>>"),
-                        fieldWithPath("_embedded.sw360:vendors").description("An array of all component vendors with ful name and link to their <<resources-vendor-get,Vendor resource>>"),
-                        fieldWithPath("_embedded.sw360:attachments").description("An array of all component attachments and link to their <<resources-attachment-get,Attachment resource>>")
+                        subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                        subsectionWithPath("_embedded.createdBy").description("The user who created this component"),
+                        subsectionWithPath("_embedded.sw360:releases").description("An array of all component releases with version and link to their <<resources-releases,Releases resource>>"),
+                        subsectionWithPath("_embedded.sw360:moderators").description("An array of all component moderators with email and link to their <<resources-user-get,User resource>>"),
+                        subsectionWithPath("_embedded.sw360:vendors").description("An array of all component vendors with ful name and link to their <<resources-vendor-get,Vendor resource>>"),
+                        subsectionWithPath("_embedded.sw360:attachments").description("An array of all component attachments and link to their <<resources-attachment-get,Attachment resource>>")
                 ));
     }
 }

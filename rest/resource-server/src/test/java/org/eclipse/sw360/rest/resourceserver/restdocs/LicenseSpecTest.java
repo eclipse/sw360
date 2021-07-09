@@ -37,6 +37,7 @@ import static org.mockito.Matchers.eq;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
@@ -114,8 +115,8 @@ public class LicenseSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:licenses").description("An array of <<resources-licenses, Licenses resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:licenses").description("An array of <<resources-licenses, Licenses resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -143,14 +144,14 @@ public class LicenseSpecTest extends TestRestDocsSpecBase {
                         responseFields(
                                 fieldWithPath("fullName").description("The full name of the license"),
                                 fieldWithPath("shortName").description("The short name of the license, optional"),
-                                fieldWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here"),
-                                fieldWithPath("additionalData").description("A place to store additional data used by external tools"),
+                                subsectionWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here"),
+                                subsectionWithPath("additionalData").description("A place to store additional data used by external tools"),
                                 fieldWithPath("text").description("The license's original text"),
                                 fieldWithPath("checked").description("The information, whether the license is already checked, optional and defaults to true"),
-                                fieldWithPath("OSIApproved").description("The OSI aprroved information, possible values are: " + Arrays.asList(Quadratic.values())),
+                                subsectionWithPath("OSIApproved").description("The OSI aprroved information, possible values are: " + Arrays.asList(Quadratic.values())),
                                 fieldWithPath("FSFLibre").description("The FSF libre information, possible values are: " + Arrays.asList(Quadratic.values())),
-                                fieldWithPath("_embedded.sw360:obligations").description("An array of <<resources-obligations, Obligations obligations>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:obligations").description("An array of <<resources-obligations, Obligations obligations>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
