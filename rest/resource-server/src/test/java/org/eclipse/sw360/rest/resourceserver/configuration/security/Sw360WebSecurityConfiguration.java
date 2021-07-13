@@ -55,9 +55,9 @@ public class Sw360WebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     }
     
     @Bean
-        public PasswordEncoder passwordEncoder() {
-            return NoOpPasswordEncoder.getInstance();
-        }
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

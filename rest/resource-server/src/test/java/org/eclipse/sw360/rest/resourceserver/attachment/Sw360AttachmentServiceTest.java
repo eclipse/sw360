@@ -24,7 +24,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,7 +46,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Sw360AttachmentServiceTest {
-    @Mock
+
+    @Value("${sw360.thrift-server-url:http://localhost:8080}")
+    private String thriftServerUrl;
+
+    @Spy
     private ThriftServiceProvider<AttachmentService.Iface> serviceProvider;
 
     @Mock
@@ -60,7 +66,7 @@ public class Sw360AttachmentServiceTest {
 
     @Before
     public void setUp() throws TTransportException {
-        when(serviceProvider.getService(anyString())).thenReturn(thriftService);
+        when(serviceProvider.getService(thriftServerUrl)).thenReturn(thriftService);
     }
 
     private static String attachmentId(int idx) {

@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,14 +49,14 @@ public class HealthSpecTest extends TestRestDocsSpecBase{
                 .andDo(this.documentationHandler.document(
                         responseFields(
                                 fieldWithPath("status").description("The overall status of the health."),
-                                fieldWithPath("diskSpace.status").description("The status of the health of the diskspace."),
-                                fieldWithPath("diskSpace.total").description("The total volume of the diskspace."),
-                                fieldWithPath("diskSpace.free").description("The free space of the diskspace."),
-                                fieldWithPath("diskSpace.threshold").description("The threshold of the diskspace."),
-                                fieldWithPath("SW360Rest.status").description("The status of the health of the specific health indicator 'SW360 Rest'."),
-                                fieldWithPath("SW360Rest.Rest State").description("The details of the rest state in regards to the thrift clients and database."),
-                                fieldWithPath("SW360Rest.Rest State.isDbReachable").description("The details of the rest state in regards to the thrift clients reachablity represented by a boolean value."),
-                                fieldWithPath("SW360Rest.Rest State.isThriftReachable").description("The details of the rest state in regards to the databases reachablity represented by a boolean value.")
+                                fieldWithPath("details.diskSpace.status").description("The status of the health of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.total").description("The total volume of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.free").description("The free space of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.threshold").description("The threshold of the diskspace."),
+                                fieldWithPath("details.SW360Rest.status").description("The status of the health of the specific health indicator 'SW360 Rest'."),
+                                fieldWithPath("details.SW360Rest.details.Rest State").description("The details of the rest state in regards to the thrift clients and database."),
+                                fieldWithPath("details.SW360Rest.details.Rest State.isDbReachable").description("The details of the rest state in regards to the thrift clients reachablity represented by a boolean value."),
+                                fieldWithPath("details.SW360Rest.details.Rest State.isThriftReachable").description("The details of the rest state in regards to the databases reachablity represented by a boolean value.")
                         )
                 ));
     }
@@ -80,15 +79,15 @@ public class HealthSpecTest extends TestRestDocsSpecBase{
                 .andDo(this.documentationHandler.document(
                         responseFields(
                                 fieldWithPath("status").description("The overall status of the health."),
-                                fieldWithPath("diskSpace.status").description("The status of the health of the diskspace."),
-                                fieldWithPath("diskSpace.total").description("The total volume of the diskspace."),
-                                fieldWithPath("diskSpace.free").description("The free space of the diskspace."),
-                                fieldWithPath("diskSpace.threshold").description("The threshold of the diskspace."),
-                                fieldWithPath("SW360Rest.status").description("The status of the health of the specific health indicator 'SW360 Rest', which in case of error will not be \"UP\"."),
-                                fieldWithPath("SW360Rest.Rest State").description("The details of the rest state in regards to the thrift clients and database."),
-                                fieldWithPath("SW360Rest.Rest State.isDbReachable").description("The details of the rest state in regards to the thrift clients reachablity represented by a boolean value."),
-                                fieldWithPath("SW360Rest.Rest State.isThriftReachable").description("The details of the rest state in regards to the databases reachablity represented by a boolean value."),
-                                fieldWithPath("SW360Rest.error").description("The throwables that can cause the health status to be not \"UP\".")
+                                fieldWithPath("details.diskSpace.status").description("The status of the health of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.total").description("The total volume of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.free").description("The free space of the diskspace."),
+                                fieldWithPath("details.diskSpace.details.threshold").description("The threshold of the diskspace."),
+                                fieldWithPath("details.SW360Rest.status").description("The status of the health of the specific health indicator 'SW360 Rest', which in case of error will not be \"UP\"."),
+                                fieldWithPath("details.SW360Rest.details.Rest State").description("The details of the rest state in regards to the thrift clients and database."),
+                                fieldWithPath("details.SW360Rest.details.Rest State.isDbReachable").description("The details of the rest state in regards to the thrift clients reachablity represented by a boolean value."),
+                                fieldWithPath("details.SW360Rest.details.Rest State.isThriftReachable").description("The details of the rest state in regards to the databases reachablity represented by a boolean value."),
+                                fieldWithPath("details.SW360Rest.details.error").description("The throwables that can cause the health status to be not \"UP\".")
                         )
                 ));
     }

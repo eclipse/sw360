@@ -75,6 +75,8 @@ public class ResourceServerConfiguration extends WebSecurityConfigurerAdapter im
                 .httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/health").permitAll()
+                .antMatchers(HttpMethod.GET, "/info").hasAuthority("WRITE")
                 .antMatchers(HttpMethod.GET, "/api").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").hasAuthority("READ")
                 .antMatchers(HttpMethod.POST, "/api/**").hasAuthority("WRITE")

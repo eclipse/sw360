@@ -152,14 +152,14 @@ public class AttachmentSpecTest extends TestRestDocsSpecBase {
     public void should_document_get_attachments_by_sha1() throws Exception {
         String accessToken = TestHelper.getAccessToken(mockMvc, testUserId, testUserPassword);
         mockMvc.perform(get("/api/attachments?sha1=da373e491d3863477568896089ee9457bc316783")
-                        .header("Authorization", "Bearer " + accessToken).accept(MediaTypes.HAL_JSON))
+                .header("Authorization", "Bearer " + accessToken).accept(MediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         links(linkWithRel("curies").description("Curies are used for online documentation")),
                         responseFields(
                                 subsectionWithPath("_links")
                                         .description("<<resources-index-links,Links>> to other resources"),
-                                        subsectionWithPath("_embedded.sw360:attachments").description(
+                                subsectionWithPath("_embedded.sw360:attachments").description(
                                         "The collection of <<resources-attachments,Attachment resources>>. In most cases the result should contain either one element or an empty collection. If the same binary file is uploaded and attached to multiple sw360 resources, the collection will contain all the attachments with matching sha1 hash."))))
                 .andReturn();
     }

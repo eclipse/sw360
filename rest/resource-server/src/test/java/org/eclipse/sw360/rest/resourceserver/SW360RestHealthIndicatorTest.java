@@ -101,8 +101,12 @@ public class SW360RestHealthIndicatorTest {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
 
-        final LinkedHashMap sw360Rest = (LinkedHashMap<String, Object>) entity.getBody().get("SW360Rest");
-        final LinkedHashMap restState = (LinkedHashMap<String, Object>) sw360Rest.get("Rest State");
+        final LinkedHashMap body = (LinkedHashMap) entity.getBody();
+        final LinkedHashMap bodyDetails =(LinkedHashMap<String, Object>) body.get("details");
+        final LinkedHashMap sW360RestDetails =(LinkedHashMap<String, Object>) bodyDetails.get("SW360Rest");
+        final LinkedHashMap sw360Rest =(LinkedHashMap<String, Object>) sW360RestDetails.get("details");
+        final LinkedHashMap restStateDetails =(LinkedHashMap<String, Object>)sW360RestDetails.get("details");
+        final LinkedHashMap restState = (LinkedHashMap<String, Object>) restStateDetails.get("Rest State");
         assertFalse((boolean) restState.get(IS_DB_REACHABLE));
         assertTrue((boolean) restState.get(IS_THRIFT_REACHABLE));
     }
@@ -131,8 +135,12 @@ public class SW360RestHealthIndicatorTest {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
 
-        final LinkedHashMap sw360Rest = (LinkedHashMap<String, Object>) entity.getBody().get("SW360Rest");
-        final LinkedHashMap restState = (LinkedHashMap<String, Object>) sw360Rest.get("Rest State");
+        final LinkedHashMap body = (LinkedHashMap) entity.getBody();
+        final LinkedHashMap bodyDetails =(LinkedHashMap<String, Object>) body.get("details");
+        final LinkedHashMap sW360RestDetails =(LinkedHashMap<String, Object>) bodyDetails.get("SW360Rest");
+        final LinkedHashMap sw360Rest =(LinkedHashMap<String, Object>) sW360RestDetails.get("details");
+        final LinkedHashMap restStateDetails =(LinkedHashMap<String, Object>)sW360RestDetails.get("details");
+        final LinkedHashMap restState = (LinkedHashMap<String, Object>) restStateDetails.get("Rest State");
         assertTrue((boolean) restState.get(IS_DB_REACHABLE));
         assertFalse((boolean) restState.get(IS_THRIFT_REACHABLE));
         assertNotNull(sw360Rest.get("error"));
@@ -157,8 +165,12 @@ public class SW360RestHealthIndicatorTest {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
 
-        final LinkedHashMap sw360Rest = (LinkedHashMap<String, Object>) entity.getBody().get("SW360Rest");
-        final LinkedHashMap restState = (LinkedHashMap<String, Object>) sw360Rest.get("Rest State");
+        final LinkedHashMap body = (LinkedHashMap) entity.getBody();
+        final LinkedHashMap bodyDetails =(LinkedHashMap<String, Object>) body.get("details");
+        final LinkedHashMap sW360RestDetails =(LinkedHashMap<String, Object>) bodyDetails.get("SW360Rest");
+        final LinkedHashMap sw360Rest =(LinkedHashMap<String, Object>) sW360RestDetails.get("details");
+        final LinkedHashMap restStateDetails =(LinkedHashMap<String, Object>)sW360RestDetails.get("details");
+        final LinkedHashMap restState = (LinkedHashMap<String, Object>) restStateDetails.get("Rest State");
         assertTrue((boolean) restState.get(IS_DB_REACHABLE));
         assertFalse((boolean) restState.get(IS_THRIFT_REACHABLE));
         assertNotNull(sw360Rest.get("error"));
@@ -177,8 +189,12 @@ public class SW360RestHealthIndicatorTest {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE);
 
-        final LinkedHashMap sw360Rest = (LinkedHashMap<String, Object>) entity.getBody().get("SW360Rest");
-        final LinkedHashMap restState = (LinkedHashMap<String, Object>) sw360Rest.get("Rest State");
+        final LinkedHashMap body = (LinkedHashMap) entity.getBody();
+        final LinkedHashMap bodyDetails =(LinkedHashMap<String, Object>) body.get("details");
+        final LinkedHashMap sW360RestDetails =(LinkedHashMap<String, Object>) bodyDetails.get("SW360Rest");
+        final LinkedHashMap sw360Rest =(LinkedHashMap<String, Object>) sW360RestDetails.get("details");
+        final LinkedHashMap restStateDetails =(LinkedHashMap<String, Object>)sW360RestDetails.get("details");
+        final LinkedHashMap restState = (LinkedHashMap<String, Object>) restStateDetails.get("Rest State");
         assertFalse((boolean) restState.get(IS_DB_REACHABLE));
         assertNotNull(sw360Rest.get("error"));
     }
@@ -204,8 +220,12 @@ public class SW360RestHealthIndicatorTest {
         ResponseEntity<Map> entity = getMapResponseEntityForHealthEndpointRequest("/health");
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        final LinkedHashMap sw360Rest = (LinkedHashMap<String, Object>) entity.getBody().get("SW360Rest");
-        final LinkedHashMap restState = (LinkedHashMap<String, Object>) sw360Rest.get("Rest State");
+        final LinkedHashMap body = (LinkedHashMap) entity.getBody();
+        final LinkedHashMap bodyDetails =(LinkedHashMap<String, Object>) body.get("details");
+        final LinkedHashMap sW360RestDetails =(LinkedHashMap<String, Object>) bodyDetails.get("SW360Rest");
+        final LinkedHashMap restStateDetails =(LinkedHashMap<String, Object>)sW360RestDetails.get("details");
+        final LinkedHashMap restState = (LinkedHashMap<String, Object>) restStateDetails.get("Rest State");
+
         assertTrue((boolean) restState.get(IS_DB_REACHABLE));
     }
 }

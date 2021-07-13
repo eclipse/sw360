@@ -424,14 +424,11 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andDo(this.documentationHandler.document(
                         links(linkWithRel("curies").description("Curies are used for online documentation")),
                         responseFields(
-                                subsectionWithPath("_embedded.sw360:releases.[]name")
-                                        .description("The name of the release, optional"),
-                                        subsectionWithPath("_embedded.sw360:releases.[]version")
-                                        .description("The version of the release"),
-                                        subsectionWithPath("_embedded.sw360:releases")
-                                        .description("An array of <<resources-releases, Releases resources>>"),
-                                        subsectionWithPath("_links")
-                                        .description("<<resources-index-links,Links>> to other resources"))));
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")))
+                        );
     }
 
     @Test
@@ -690,7 +687,7 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                         responseFields(
                                 subsectionWithPath("_links")
                                         .description("<<resources-index-links,Links>> to other resources"),
-                                        subsectionWithPath("_embedded.sw360:releases").description(
+                                subsectionWithPath("_embedded.sw360:releases").description(
                                         "The collection of <<resources-releases,Releases resources>>. In most cases the result should contain either one element or an empty response. If the same binary file is uploaded and attached to multiple sw360 resources, the collection will contain all the releases that have attachments with matching sha1 hash."))))
                 .andReturn();
     }

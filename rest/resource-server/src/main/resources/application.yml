@@ -12,24 +12,23 @@
 server:
   port: 8091
 
-endpoints:
-  enabled: false
-  info:
-    enabled: true
-    sensitive: true
-  health:
-    enabled: true
-    sensitive: false
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    web:
+      base-path: /
 
 spring:
-  http:
+  servlet:
     multipart:
       max-file-size: 500MB
       max-request-size: 600MB
-
-  data:
-    rest:
-      base-path: /api
 
 # logging:
 #   level:
@@ -39,7 +38,6 @@ security:
   oauth2:
     resource:
       id: sw360-REST-API
-      filter-order: 3
       jwt:
         keyValue: |
           -----BEGIN PUBLIC KEY-----
