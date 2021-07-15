@@ -54,6 +54,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -427,6 +428,26 @@ public class ReleaseController implements ResourceProcessor<RepositoryLinksResou
         responseResource.add(checkStatusLink);
 
         return new ResponseEntity<HalResource>(responseResource, status);
+    }
+
+    // Link release to release
+    @PreAuthorize("hasAuthority('WRITE')")
+    @RequestMapping(value = RELEASES_URL + "/{id}/releases", method = RequestMethod.POST)
+    public ResponseEntity linkReleases(
+            @PathVariable("id") String id,
+            @RequestBody Map<String, ReleaseRelationship> releaseIdToRelationship) throws TException {
+        User sw360User = restControllerHelper.getSw360UserFromAuthentication();
+        Release sw360Release = releaseService.getReleaseForUserById(id, sw360User);
+        if (releaseIdToRelationship.isEmpty()) {
+            throw new HttpMessageNotReadableException("Input data can not empty!");
+        }
+        sw360Release.setReleaseIdToRelationship(releaseIdToRelationship);
+
+        RequestStatus updateReleaseStatus = releaseService.updateRelease(sw360Release, sw360User);
+        if (updateReleaseStatus == RequestStatus.SENT_TO_MODERATOR) {
+            return new ResponseEntity(RESPONSE_BODY_FOR_MODERATION_REQUEST, HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override

@@ -96,6 +96,7 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
     private Attachment attachment;
     Component component;
     private Project project;
+    private Map<String, ReleaseRelationship> releaseIdToRelationship1;
 
     private final String releaseId = "3765276512";
     private final String attachmentSha1 = "da373e491d3863477568896089ee9457bc316783";
@@ -318,6 +319,8 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
         release3.setExternalToolProcesses(ImmutableSet.of(fossologyProcess));
         when(releaseServiceMock.getReleaseForUserById(eq(release3.getId()), anyObject())).thenReturn(release3);
         when(releaseServiceMock.getExternalToolProcess(release3)).thenReturn(fossologyProcess);
+
+        releaseIdToRelationship1 = ImmutableMap.of(release2.getId(), ReleaseRelationship.DYNAMICALLY_LINKED, release3.getId(), ReleaseRelationship.CONTAINED);
     }
 
     @Test
@@ -703,6 +706,18 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .accept(MediaTypes.HAL_JSON))
                 .andExpect(status().isOk())
                 .andDo(documentReleaseProperties());
+    }
+
+    @Test
+    public void should_document_link_releases_to_release() throws Exception {
+
+        String accessToken = TestHelper.getAccessToken(mockMvc, testUserId, testUserPassword);
+        mockMvc.perform(post("/api/releases/" + release.getId() + "/releases")
+                .contentType(MediaTypes.HAL_JSON)
+                .content(this.objectMapper.writeValueAsString(releaseIdToRelationship1))
+                .header("Authorization", "Bearer" + accessToken)
+                .accept(MediaTypes.HAL_JSON))
+                .andExpect(status().isCreated());
     }
 
     private RestDocumentationResultHandler documentReleaseProperties() {

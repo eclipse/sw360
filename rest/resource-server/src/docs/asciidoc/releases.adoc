@@ -329,6 +329,22 @@ include::{snippets}/should_document_delete_releases/curl-request.adoc[]
 ===== Example response
 include::{snippets}/should_document_delete_releases/http-response.adoc[]
 
+
+[[resources-release-link]]
+==== Link release to release
+
+A `POST` request is used to link releases to the release.
+
+===== Request structure
+Pass a map of Release Relationship to usage to be linked as request body.
+
+===== Example request
+include::{snippets}/should_document_link_releases_to_release/curl-request.adoc[]
+
+===== Example response
+include::{snippets}/should_document_link_releases_to_release/http-response.adoc[]
+
+
 [[resources-release-usedby-list]]
 ==== Resources using the release
 
