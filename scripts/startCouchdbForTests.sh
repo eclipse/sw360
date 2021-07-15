@@ -20,11 +20,13 @@ if [[ ! "$(docker ps -q -f name=$NAME)" ]]; then
 
     echo "Test container is not running, starting it ..."
     docker run \
+	   -e COUCHDB_USER=admin \
+	   -e COUCHDB_PASSWORD=password \
            --rm \
            -p 5984:5984 \
            -d \
            --name "$NAME" \
-           couchdb:1
+           couchdb:3.1
     echo "Test container is started and listening on 5984."
 else
     echo "Test container is running, shutting it down ..."
