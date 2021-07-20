@@ -1,0 +1,15 @@
+{
+  "_embedded": {
+    "sw360:vulnerabilities": [
+    {
+       "externalId": "test987",
+       "title": "Title of vulnerability 12345",
+       "_links": {
+       "self": {
+          "href": "http://sw360.test.com/resource/api/vulnerabilities/987"
+          }
+       }
+    }
+   ]
+  }
+}
