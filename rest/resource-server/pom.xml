@@ -105,6 +105,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring-security-oauth2.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -116,6 +117,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
+            <version>${spring-security-jwt.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -232,6 +234,11 @@
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework.security.oauth.boot</groupId>
+           <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+           <version>2.1.17.RELEASE</version>
         </dependency>
     </dependencies>
     <dependencyManagement>

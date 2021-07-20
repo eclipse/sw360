@@ -97,6 +97,8 @@ import static org.eclipse.sw360.datahandler.common.WrappedException.wrapTExcepti
 import static org.eclipse.sw360.portal.common.PortalConstants.*;
 import static org.eclipse.sw360.portal.common.PortletUtils.getVerificationState;
 
+import org.apache.thrift.transport.TTransportException;
+
 @org.osgi.service.component.annotations.Component(
     immediate = true,
     properties = {
@@ -122,7 +124,7 @@ public class ComponentPortlet extends FossologyAwarePortlet {
     private static final Logger log = LogManager.getLogger(ComponentPortlet.class);
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
-    private static final TSerializer JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+    private static final TSerializer JSON_THRIFT_SERIALIZER = getJsonSerializer();
 
     // Component view datatables, index of columns
     private static final int COMPONENT_NO_SORT = -1;
@@ -955,7 +957,6 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         User sessionUser = UserCacheHolder.getUserFromRequest(request);
         String componentTargetId = request.getParameter(COMPONENT_TARGET_ID);
         String componentSourceId = request.getParameter(COMPONENT_SOURCE_ID);
-
         ComponentService.Iface cClient = thriftClients.makeComponentClient();
         Component componentTarget = cClient.getComponentById(componentTargetId, sessionUser);
         Component componentSource = cClient.getComponentById(componentSourceId, sessionUser);
@@ -970,11 +971,10 @@ public class ComponentPortlet extends FossologyAwarePortlet {
     }
 
     private void generateComponentMergeWizardStep2Response(ActionRequest request, JsonGenerator jsonGenerator)
-            throws IOException, TException {
+            throws IOException, TException, TTransportException {
         Component componentSelection = OBJECT_MAPPER.readValue(request.getParameter(COMPONENT_SELECTION),
                 Component.class);
         String componentSourceId = request.getParameter(COMPONENT_SOURCE_ID);
-
         // FIXME: maybe validate the component
 
         jsonGenerator.writeStartObject();
@@ -1244,7 +1244,6 @@ public class ComponentPortlet extends FossologyAwarePortlet {
         Release releaseSelection = OBJECT_MAPPER.readValue(request.getParameter(RELEASE_SELECTION),
                 Release.class);
         String releaseSourceId = request.getParameter(RELEASE_SOURCE_ID);
-
         // FIXME: maybe validate the component
 
         jsonGenerator.writeStartObject();

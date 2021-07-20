@@ -28,7 +28,7 @@ import java.util.List;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public abstract class Sw360CORSFilter implements Filter {
 
-    @Value("${sw360.cors.allowed-origin}")
+    @Value("${sw360.cors.allowed-origin:}")
     private String allowedOrigin;
     @Value("${sw360.cors.max-age:3600}")
     private String accessControlMaxAge;

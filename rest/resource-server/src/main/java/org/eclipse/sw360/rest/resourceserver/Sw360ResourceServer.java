@@ -21,7 +21,7 @@ import org.eclipse.sw360.rest.resourceserver.security.apiToken.ApiTokenAuthentic
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -34,6 +34,8 @@ import org.springframework.hateoas.hal.DefaultCurieProvider;
 @SpringBootApplication
 @Import(Sw360CORSFilter.class)
 public class Sw360ResourceServer extends SpringBootServletInitializer {
+
+    private static final String REST_BASE_PATH = "/api";
 
     @Value("${spring.data.rest.default-page-size:10}")
     private int defaultPageSize;
@@ -74,6 +76,7 @@ public class Sw360ResourceServer extends SpringBootServletInitializer {
             @Override
             public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
                 config.setLimitParamName(RestControllerHelper.PAGINATION_PARAM_PAGE_ENTRIES);
+                config.setBasePath(REST_BASE_PATH);
             }
         };
     }

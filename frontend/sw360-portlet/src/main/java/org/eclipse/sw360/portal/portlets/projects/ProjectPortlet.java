@@ -153,7 +153,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final TSerializer THRIFT_JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+    private static final TSerializer THRIFT_JSON_SERIALIZER = getJsonSerializer();
 
     public static final String LICENSE_STORE_KEY_PREFIX = "license-store-";
 

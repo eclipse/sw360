@@ -70,6 +70,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring-security-oauth2.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -81,6 +82,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
+            <version>${spring-security-jwt.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

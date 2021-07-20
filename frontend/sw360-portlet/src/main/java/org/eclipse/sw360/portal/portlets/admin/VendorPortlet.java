@@ -41,7 +41,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.thrift.TException;
 import org.apache.thrift.TSerializer;
-import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import java.io.IOException;
@@ -79,7 +78,7 @@ public class VendorPortlet extends Sw360Portlet {
     private static final Logger log = LogManager.getLogger(VendorPortlet.class);
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
-    private static final TSerializer JSON_THRIFT_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+    private static final TSerializer JSON_THRIFT_SERIALIZER = getJsonSerializer();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**
@@ -301,10 +300,9 @@ public class VendorPortlet extends Sw360Portlet {
         jsonGenerator.writeEndObject();
     }
 
-    private void generateCompareEditorForWizardStep1(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException {
+    private void generateCompareEditorForWizardStep1(ActionRequest request, JsonGenerator jsonGenerator) throws IOException, TException  {
         String vendorTargetId = request.getParameter(VENDOR_TARGET_ID);
         String vendorSourceId = request.getParameter(VENDOR_SOURCE_ID);
-
         VendorService.Iface client = thriftClients.makeVendorClient();
         Vendor vendorTarget = client.getByID(vendorTargetId);
         Vendor vendorSource = client.getByID(vendorSourceId);
@@ -326,7 +324,6 @@ public class VendorPortlet extends Sw360Portlet {
             throws IOException, TException {
         Vendor vendorSelection = OBJECT_MAPPER.readValue(request.getParameter(VENDOR_SELECTION), Vendor.class);
         String vendorSourceId = request.getParameter(VENDOR_SOURCE_ID);
-        
         jsonGenerator.writeStartObject();
 
         // adding common title

@@ -14,6 +14,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -142,24 +143,24 @@ public class ChangeLogSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:changeLogs[]id").description("The id of the resource"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]documentId").description("The id of the document"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]documentType").description("The type of the document. Possible values are " + docType),
-                                fieldWithPath("_embedded.sw360:changeLogs[]operation").description("The type of the operation. Possible values are " + Arrays.asList(Operation.values())),
-                                fieldWithPath("_embedded.sw360:changeLogs[]userEdited").description("The email id of user who made the changes"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]changeTimestamp").description("The date of the changelog"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]parentDocId").description("The id of the parent document which caused this change"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]info").description("Miscellaneous information like attachment filename, content type, parent doc operation"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]changes[]fieldName").description("The name of the changed field"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]changes[]fieldValueOld").description("The old value of changed field"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]changes[]fieldValueNew").description("The new value of changed field"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]changes").description("An array of changes"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocId").description("The id of the document created along with current changes like Attachments"),
-                                fieldWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocType").description("The type of the reference document. Possible values are " + docType),
-                                fieldWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocOperation").description("The type of the operation. Possible values are " + Arrays.asList(Operation.values())),
-                                fieldWithPath("_embedded.sw360:changeLogs[]referenceDoc[]").description("An array of refernce doc"),
-                                fieldWithPath("_embedded.sw360:changeLogs").description("An array of <<resources-changelog, ChangeLog resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]id").description("The id of the resource"),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]documentId").description("The id of the document"),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]documentType").description("The type of the document. Possible values are " + docType),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]operation").description("The type of the operation. Possible values are " + Arrays.asList(Operation.values())),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]userEdited").description("The email id of user who made the changes"),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]changeTimestamp").description("The date of the changelog"),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]parentDocId").description("The id of the parent document which caused this change").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]info").description("Miscellaneous information like attachment filename, content type, parent doc operation").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]changes[]fieldName").description("The name of the changed field").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]changes[]fieldValueOld").description("The old value of changed field").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]changes[]fieldValueNew").description("The new value of changed field").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]changes").description("An array of changes").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocId").description("The id of the document created along with current changes like Attachments").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocType").description("The type of the reference document. Possible values are " + docType).optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]referenceDoc[]refDocOperation").description("The type of the operation. Possible values are " + Arrays.asList(Operation.values())).optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs[]referenceDoc[]").description("An array of refernce doc").optional(),
+                                subsectionWithPath("_embedded.sw360:changeLogs").description("An array of <<resources-changelog, ChangeLog resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of changelogs per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing changelogs"),

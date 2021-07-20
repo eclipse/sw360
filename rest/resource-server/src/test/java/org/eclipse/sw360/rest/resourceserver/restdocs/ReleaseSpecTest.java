@@ -342,10 +342,10 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("last").description("Link to last page")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:releases[]name").description("The name of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]version").description("The version of the release"),
-                                fieldWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
                                 fieldWithPath("page").description("Additional paging information"),
                                 fieldWithPath("page.size").description("Number of projects per page"),
                                 fieldWithPath("page.totalElements").description("Total number of all existing projects"),
@@ -366,31 +366,31 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("The curies for documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:releases[]name").description("The name of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]version").description("The version of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]createdBy").description("Email of the release creator"),
-                                fieldWithPath("_embedded.sw360:releases[]cpeId").description("CpeId of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]clearingState").description("The clearing of the release, possible values are " + Arrays.asList(ClearingState.values())),
-                                fieldWithPath("_embedded.sw360:releases[]releaseDate").description("The date of this release"),
-                                fieldWithPath("_embedded.sw360:releases[]createdOn").description("The creation date of the internal sw360 release"),
-                                fieldWithPath("_embedded.sw360:releases[]mainlineState").description("the mainline state of the release, possible values are: " + Arrays.asList(MainlineState.values())),
-                                fieldWithPath("_embedded.sw360:releases[]sourceCodeDownloadurl").description("the source code download url of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]binaryDownloadurl").description("the binary download url of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
-                                fieldWithPath("_embedded.sw360:releases[]additionalData").description("A place to store additional data used by external tools"),
-                                fieldWithPath("_embedded.sw360:releases[]languages").description("The language of the component"),
-                                fieldWithPath("_embedded.sw360:releases[]contributors").description("An array of all project contributors with email"),
-                                fieldWithPath("_embedded.sw360:releases[]mainLicenseIds").description("An array of all main licenses"),
-                                fieldWithPath("_embedded.sw360:releases[]operatingSystems").description("The OS on which the release operates"),
-                                fieldWithPath("_embedded.sw360:releases[]softwarePlatforms").description("The software platforms of the component"),
-                                fieldWithPath("_embedded.sw360:releases[]vendor").description("The Id of the vendor"),
-                                fieldWithPath("_embedded.sw360:releases[]_embedded.sw360:moderators").description("An array of all release moderators with email"),
-                                fieldWithPath("_embedded.sw360:releases[]_embedded.sw360:attachments").description("An array of all release attachments"),
-                                fieldWithPath("_embedded.sw360:releases[]_embedded.sw360:cotsDetails").description("An cotsDetails of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]_embedded.sw360:releaseIdToRelationship").description("An linked release Id with relation"),
-                                fieldWithPath("_embedded.sw360:releases[]_embedded.sw360:clearingInformation").description("An Clearing Information of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]_links").description("Self <<resources-index-links,Links>> to Release resource"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]createdBy").description("Email of the release creator"),
+                                subsectionWithPath("_embedded.sw360:releases.[]cpeId").description("CpeId of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]clearingState").description("The clearing of the release, possible values are " + Arrays.asList(ClearingState.values())),
+                                subsectionWithPath("_embedded.sw360:releases.[]releaseDate").description("The date of this release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]createdOn").description("The creation date of the internal sw360 release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]mainlineState").description("the mainline state of the release, possible values are: " + Arrays.asList(MainlineState.values())),
+                                subsectionWithPath("_embedded.sw360:releases.[]sourceCodeDownloadurl").description("the source code download url of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]binaryDownloadurl").description("the binary download url of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
+                                subsectionWithPath("_embedded.sw360:releases.[]additionalData").description("A place to store additional data used by external tools").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]languages").description("The language of the component"),
+                                subsectionWithPath("_embedded.sw360:releases.[]contributors").description("An array of all project contributors with email").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]mainLicenseIds").description("An array of all main licenses").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]operatingSystems").description("The OS on which the release operates"),
+                                subsectionWithPath("_embedded.sw360:releases.[]softwarePlatforms").description("The software platforms of the component"),
+                                subsectionWithPath("_embedded.sw360:releases.[]vendor").description("The Id of the vendor").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]_embedded.sw360:moderators").description("An array of all release moderators with email"),
+                                subsectionWithPath("_embedded.sw360:releases.[]_embedded.sw360:attachments").description("An array of all release attachments").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]_embedded.sw360:cotsDetails").description("An cotsDetails of the release").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]_embedded.sw360:releaseIdToRelationship").description("An linked release Id with relation").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]_embedded.sw360:clearingInformation").description("An Clearing Information of the release").optional(),
+                                subsectionWithPath("_embedded.sw360:releases.[]_links").description("Self <<resources-index-links,Links>> to Release resource"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -406,12 +406,12 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                                 linkWithRel("curies").description("Curies are used for online documentation")
                         ),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:releases[]name").description("The name of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]version").description("The version of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]cpeId").description("The cpeId of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]releaseDate").description("The releaseDate of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]cpeId").description("The cpeId of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]releaseDate").description("The releaseDate of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -424,14 +424,11 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andDo(this.documentationHandler.document(
                         links(linkWithRel("curies").description("Curies are used for online documentation")),
                         responseFields(
-                                fieldWithPath("_embedded.sw360:releases[]name")
-                                        .description("The name of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]version")
-                                        .description("The version of the release"),
-                                fieldWithPath("_embedded.sw360:releases")
-                                        .description("An array of <<resources-releases, Releases resources>>"),
-                                fieldWithPath("_links")
-                                        .description("<<resources-index-links,Links>> to other resources"))));
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")))
+                        );
     }
 
     @Test
@@ -459,15 +456,15 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("mainlineState").description("the mainline state of the release, possible values are: " + Arrays.asList(MainlineState.values())),
                                 fieldWithPath("sourceCodeDownloadurl").description("the source code download url of the release"),
                                 fieldWithPath("binaryDownloadurl").description("the binary download url of the release"),
-                                fieldWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
-                                fieldWithPath("additionalData").description("A place to store additional data used by external tools"),
+                                subsectionWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
+                                subsectionWithPath("additionalData").description("A place to store additional data used by external tools"),
                                 fieldWithPath("languages").description("The language of the component"),
-                                fieldWithPath("_embedded.sw360:licenses").description("An array of all main licenses with their fullName and link to their <<resources-license-get,License resource>>"),
+                                subsectionWithPath("_embedded.sw360:licenses").description("An array of all main licenses with their fullName and link to their <<resources-license-get,License resource>>"),
                                 fieldWithPath("operatingSystems").description("The OS on which the release operates"),
                                 fieldWithPath("softwarePlatforms").description("The software platforms of the component"),
-                                fieldWithPath("_embedded.sw360:moderators").description("An array of all release moderators with email and link to their <<resources-user-get,User resource>>"),
-                                fieldWithPath("_embedded.sw360:attachments").description("An array of all release attachments and link to their <<resources-attachment-get,Attachment resource>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:moderators").description("An array of all release moderators with email and link to their <<resources-user-get,User resource>>"),
+                                subsectionWithPath("_embedded.sw360:attachments").description("An array of all release attachments and link to their <<resources-attachment-get,Attachment resource>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -495,15 +492,15 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:components[]name").description("The name of the component"),
-                                fieldWithPath("_embedded.sw360:components[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
-                                fieldWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
-                                fieldWithPath("_embedded.sw360:projects[]name").description("The name of the project"),
-                                fieldWithPath("_embedded.sw360:projects[]version").description("The project version"),
-                                fieldWithPath("_embedded.sw360:projects[]projectType").description("The project type, possible values are: " + Arrays.asList(ProjectType.values())),
-                                fieldWithPath("_embedded.sw360:projects").description("An array of <<resources-projects, Projects resources>>"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:components.[]name").description("The name of the component"),
+                                subsectionWithPath("_embedded.sw360:components.[]componentType").description("The component type, possible values are: " + Arrays.asList(ComponentType.values())),
+                                subsectionWithPath("_embedded.sw360:components").description("An array of <<resources-components, Components resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"),
+                                subsectionWithPath("_embedded.sw360:projects.[]name").description("The name of the project"),
+                                subsectionWithPath("_embedded.sw360:projects.[]version").description("The project version"),
+                                subsectionWithPath("_embedded.sw360:projects.[]projectType").description("The project type, possible values are: " + Arrays.asList(ProjectType.values())),
+                                subsectionWithPath("_embedded.sw360:projects").description("An array of <<resources-projects, Projects resources>>"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -532,10 +529,10 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:attachments").description("An array of <<resources-attachment, Attachments resources>>"),
-                                fieldWithPath("_embedded.sw360:attachments[]filename").description("The attachment filename"),
-                                fieldWithPath("_embedded.sw360:attachments[]sha1").description("The attachment sha1 value"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:attachments").description("An array of <<resources-attachment, Attachments resources>>"),
+                                subsectionWithPath("_embedded.sw360:attachments.[]filename").description("The attachment filename"),
+                                subsectionWithPath("_embedded.sw360:attachments.[]sha1").description("The attachment sha1 value"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -569,7 +566,7 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                         fieldWithPath("checkedBy").description("The email of user who checked the attachment"),
                         fieldWithPath("checkedTeam").description("The department of user who checked the attachment"),
                         fieldWithPath("checkedOn").description("The date when attachment was checked"),
-                        fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                        subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                 )));
     }
 
@@ -592,11 +589,11 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andExpect(status().isOk())
                 .andDo(this.documentationHandler.document(
                         responseFields(
-                                fieldWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
-                                fieldWithPath("_embedded.sw360:releases[]name").description("The name of the release, optional"),
-                                fieldWithPath("_embedded.sw360:releases[]version").description("The version of the release"),
-                                fieldWithPath("_embedded.sw360:releases[]externalIds").description("External Ids of the release. Return as 'Single String' when single value, or 'Array of String' when multi-values"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_embedded.sw360:releases").description("An array of <<resources-releases, Releases resources>>"),
+                                subsectionWithPath("_embedded.sw360:releases.[]name").description("The name of the release, optional"),
+                                subsectionWithPath("_embedded.sw360:releases.[]version").description("The version of the release"),
+                                subsectionWithPath("_embedded.sw360:releases.[]externalIds").description("External Ids of the release. Return as 'Single String' when single value, or 'Array of String' when multi-values"),
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -610,7 +607,7 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andDo(this.documentationHandler.document(responseFields(
                         fieldWithPath("content.message").description(
                                 "Message indicating whether FOSSology Process for Release triggered or not"),
-                        fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
+                        subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
     }
 
     @Test
@@ -670,7 +667,7 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                         responseFields(
                                 fieldWithPath("name").description("The name of the release, optional"),
                                 fieldWithPath("version").description("The version of the release"),
-                                fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                                subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));
     }
 
@@ -688,9 +685,9 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                 .andDo(this.documentationHandler.document(
                         links(linkWithRel("curies").description("Curies are used for online documentation")),
                         responseFields(
-                                fieldWithPath("_links")
+                                subsectionWithPath("_links")
                                         .description("<<resources-index-links,Links>> to other resources"),
-                                fieldWithPath("_embedded.sw360:releases").description(
+                                subsectionWithPath("_embedded.sw360:releases").description(
                                         "The collection of <<resources-releases,Releases resources>>. In most cases the result should contain either one element or an empty response. If the same binary file is uploaded and attached to multiple sw360 resources, the collection will contain all the releases that have attachments with matching sha1 hash."))))
                 .andReturn();
     }
@@ -724,15 +721,15 @@ public class ReleaseSpecTest extends TestRestDocsSpecBase {
                         fieldWithPath("mainlineState").description("the mainline state of the release, possible values are: " + Arrays.asList(MainlineState.values())),
                         fieldWithPath("sourceCodeDownloadurl").description("the source code download url of the release"),
                         fieldWithPath("binaryDownloadurl").description("the binary download url of the release"),
-                        fieldWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
-                        fieldWithPath("additionalData").description("A place to store additional data used by external tools"),
+                        subsectionWithPath("externalIds").description("When releases are imported from other tools, the external ids can be stored here. Store as 'Single String' when single value, or 'Array of String' when multi-values"),
+                        subsectionWithPath("additionalData").description("A place to store additional data used by external tools"),
                         fieldWithPath("languages").description("The language of the component"),
-                        fieldWithPath("_embedded.sw360:licenses").description("An array of all main licenses with their fullName and link to their <<resources-license-get,License resource>>"),
+                        subsectionWithPath("_embedded.sw360:licenses").description("An array of all main licenses with their fullName and link to their <<resources-license-get,License resource>>"),
                         fieldWithPath("operatingSystems").description("The OS on which the release operates"),
                         fieldWithPath("softwarePlatforms").description("The software platforms of the component"),
-                        fieldWithPath("_embedded.sw360:moderators").description("An array of all release moderators with email and link to their <<resources-user-get,User resource>>"),
-                        fieldWithPath("_embedded.sw360:attachments").description("An array of all release attachments and link to their <<resources-attachment-get,Attachment resource>>"),
-                        fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
+                        subsectionWithPath("_embedded.sw360:moderators").description("An array of all release moderators with email and link to their <<resources-user-get,User resource>>"),
+                        subsectionWithPath("_embedded.sw360:attachments").description("An array of all release attachments and link to their <<resources-attachment-get,Attachment resource>>"),
+                        subsectionWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                 )
         );
     }

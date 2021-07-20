@@ -18,7 +18,7 @@
 # -----------------------------------------------------------------------------
 
 set -e
-CURRENT_THRIFT_VERSION=0.13.0
+CURRENT_THRIFT_VERSION=0.14.0
 
 BASEDIR="/tmp"
 CLEANUP=true

@@ -12,6 +12,7 @@ package org.eclipse.sw360.rest.resourceserver.restdocs;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyObject;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -97,9 +98,9 @@ public class ClearingRequestSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("requestingUser").description("The user who created the clearing request"),
                                 fieldWithPath("requestingUserComment").description("The comment from requesting user"),
                                 fieldWithPath("priority").description("The priorityof clearing request. Possible values are:  " + Arrays.asList(ClearingRequestPriority.values())),
-                                fieldWithPath("comments[]").description("The clearing request comment"),
-                                fieldWithPath("comments[]text").description("The clearing request comment text"),
-                                fieldWithPath("comments[]commentedBy").description("The user who added the comment on clearing request")
+                                subsectionWithPath("comments.[]").description("The clearing request comment"),
+                                subsectionWithPath("comments.[]text").description("The clearing request comment text"),
+                                subsectionWithPath("comments.[]commentedBy").description("The user who added the comment on clearing request")
                         )));
     }
 
@@ -123,9 +124,9 @@ public class ClearingRequestSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("requestingUser").description("The user who created the clearing request"),
                                 fieldWithPath("requestingUserComment").description("The comment from requesting user"),
                                 fieldWithPath("priority").description("The priorityof clearing request. Possible values are:  " + Arrays.asList(ClearingRequestPriority.values())),
-                                fieldWithPath("comments[]").description("The clearing request comment"),
-                                fieldWithPath("comments[]text").description("The clearing request comment text"),
-                                fieldWithPath("comments[]commentedBy").description("The user who added the comment on clearing request")
+                                subsectionWithPath("comments.[]").description("The clearing request comment"),
+                                subsectionWithPath("comments.[]text").description("The clearing request comment text"),
+                                subsectionWithPath("comments.[]commentedBy").description("The user who added the comment on clearing request")
                         )));
     }
 }

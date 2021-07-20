@@ -21,7 +21,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.thrift.TException;
 import org.apache.thrift.TSerializer;
-import org.apache.thrift.protocol.TSimpleJSONProtocol;
 import org.eclipse.sw360.datahandler.common.CommonUtils;
 import org.eclipse.sw360.datahandler.common.SW360Constants;
 import org.eclipse.sw360.datahandler.common.ThriftEnumUtils;
@@ -64,7 +63,7 @@ public abstract class AttachmentAwarePortlet extends Sw360Portlet {
     private static final Logger log = LogManager.getLogger(AttachmentAwarePortlet.class);
 
     private static class AttachmentSerializer extends StdSerializer<Attachment> {
-        private static final TSerializer JSON_SERIALIZER = new TSerializer(new TSimpleJSONProtocol.Factory());
+        private static final TSerializer JSON_SERIALIZER = getJsonSerializer();
 
         public AttachmentSerializer(Class<Attachment> clazz) {
             super(clazz);
