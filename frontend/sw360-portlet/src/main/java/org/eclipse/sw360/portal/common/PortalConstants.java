@@ -326,10 +326,12 @@ public class PortalConstants {
     public static final String VULNERABILITY = "vulnerability";
     public static final String VULNERABILITY_LIST = "vulnerabilityList";
     public static final String VULNERABILITY_RATINGS = "vulnerabilityRatings";
+    public static final String VULNERABILITY_ACTIONS = "vulnerabilityActions";
     public static final String VULNERABILITY_ID = "vulnerabilityId";
     public static final String VULNERABILITY_IDS = "vulnerabilityIds";
     public static final String VULNERABILITY_RATING_VALUE = "vulnerabilityRatingValue";
     public static final String VULNERABILITY_RATING_COMMENT = "vulnerabilityRatingComment";
+    public static final String VULNERABILITY_RATING_ACTION = "vulnerabilityRatingAction";
     public static final String NUMBER_OF_VULNERABILITIES = "numberOfVulnerabilities";
     public static final String NUMBER_OF_UNCHECKED_VULNERABILITIES = "numberOfUncheckedVulnerabilities";
     public static final String NUMBER_OF_INCORRECT_VULNERABILITIES = "numberOfIncorrectVulnerabilities";

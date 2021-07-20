@@ -195,7 +195,8 @@ public class ProjectPortletUtils {
                 .setCheckedBy(UserCacheHolder.getUserFromRequest(request).getEmail())
                 .setCheckedOn(SW360Utils.getCreatedOn())
                 .setComment(request.getParameter(PortalConstants.VULNERABILITY_RATING_COMMENT))
-                .setVulnerabilityRating(vulnerabilityRatingForProject);
+                .setVulnerabilityRating(vulnerabilityRatingForProject)
+                .setProjectAction(request.getParameter(PortalConstants.VULNERABILITY_RATING_ACTION));
     }
 
     static void saveStickyProjectGroup(PortletRequest request, User user, String groupFilterValue) {

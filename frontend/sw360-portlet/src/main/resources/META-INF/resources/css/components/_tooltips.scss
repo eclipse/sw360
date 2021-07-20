@@ -28,6 +28,7 @@
         .formatedMessageForVulDate,
         .formatedMessageForVulPrefix,
         .formatedMessageForVulCheckedBy:before,
+        .formatedMessageForVulAction:before,
         .formatedMessageForVulComment:before {
             font-size: 90%;
         }
@@ -43,6 +44,11 @@
 
         .formatedMessageForVulComment:before {
             content: "Comment: ";
+            font-style: italic;
+        }
+
+        .formatedMessageForVulAction:before {
+            content: "Action: ";
             font-style: italic;
         }
     }

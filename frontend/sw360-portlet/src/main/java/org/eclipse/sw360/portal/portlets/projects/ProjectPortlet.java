@@ -1814,10 +1814,11 @@ public class ProjectPortlet extends FossologyAwarePortlet {
                 e -> e.getVulnerabilityRating().name(),
                 e -> e.getCheckedOn(),
                 e -> e.getCheckedBy(),
-                e -> e.getComment());
+                e -> e.getComment(),
+                e -> e.getProjectAction());
     }
 
-    private boolean addToVulnerabilityRatings(Map<String, Map<String, VulnerabilityRatingForProject>> vulnerabilityRatings,
+    private boolean addToVulnerabilityRatings(Map<String, Map<String, String>> vulnerabilityIdToReleaseIdToAction, Map<String, Map<String, VulnerabilityRatingForProject>> vulnerabilityRatings,
                                               Map<String, Map<String, String>> vulnerabilityTooltips,
                                               Map<String, Map<String, List<VulnerabilityCheckStatus>>> vulnerabilityIdToReleaseIdToStatus,
                                               VulnerabilityDTO vulnerability) {
@@ -1830,6 +1831,9 @@ public class ProjectPortlet extends FossologyAwarePortlet {
         if (!vulnerabilityRatings.containsKey(vulnerabilityId)) {
             vulnerabilityRatings.put(vulnerabilityId, new HashMap<>());
         }
+        if (!vulnerabilityIdToReleaseIdToAction.containsKey(vulnerabilityId)) {
+            vulnerabilityIdToReleaseIdToAction.put(vulnerabilityId, new HashMap<>());
+        }
         List<VulnerabilityCheckStatus> vulnerabilityCheckStatusHistory = null;
         if(vulnerabilityIdToReleaseIdToStatus.containsKey(vulnerabilityId) && vulnerabilityIdToReleaseIdToStatus.get(vulnerabilityId).containsKey(releaseId)) {
             vulnerabilityCheckStatusHistory = vulnerabilityIdToReleaseIdToStatus.get(vulnerabilityId).get(releaseId);
@@ -1839,13 +1843,16 @@ public class ProjectPortlet extends FossologyAwarePortlet {
 
             VulnerabilityCheckStatus vulnerabilityCheckStatus = vulnerabilityCheckStatusHistory.get(vulnerabilityCheckStatusHistory.size() - 1);
             VulnerabilityRatingForProject rating = vulnerabilityCheckStatus.getVulnerabilityRating();
+            String action = vulnerabilityCheckStatus.getProjectAction();
             vulnerabilityRatings.get(vulnerabilityId).put(releaseId, rating);
+            vulnerabilityIdToReleaseIdToAction.get(vulnerabilityId).put(releaseId, action);
             if (rating != VulnerabilityRatingForProject.NOT_CHECKED) {
                 return true;
             }
         } else {
             vulnerabilityTooltips.get(vulnerabilityId).put(releaseId, NOT_CHECKED_YET);
             vulnerabilityRatings.get(vulnerabilityId).put(releaseId, VulnerabilityRatingForProject.NOT_CHECKED);
+            vulnerabilityIdToReleaseIdToAction.get(vulnerabilityId).put(releaseId, vulnerability.getAction());
         }
         return false;
     }
@@ -1870,10 +1877,11 @@ public class ProjectPortlet extends FossologyAwarePortlet {
         int numberOfCheckedVulnerabilities = 0;
         Map<String, Map<String, String>> vulnerabilityTooltips = new HashMap<>();
         Map<String, Map<String, VulnerabilityRatingForProject>> vulnerabilityRatings = new HashMap<>();
+        Map<String, Map<String, String>> vulnerabilityActions = new HashMap<>();
 
         for (VulnerabilityDTO vul : vuls) {
             numberOfVulnerabilities++;
-            boolean wasAddedVulChecked = addToVulnerabilityRatings(vulnerabilityRatings, vulnerabilityTooltips, vulnerabilityIdToStatusHistory, vul);
+            boolean wasAddedVulChecked = addToVulnerabilityRatings(vulnerabilityActions, vulnerabilityRatings, vulnerabilityTooltips, vulnerabilityIdToStatusHistory, vul);
             if (wasAddedVulChecked) {
                 numberOfCheckedVulnerabilities++;
             }
@@ -1881,6 +1889,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
 
         int numberOfUncheckedVulnerabilities = numberOfVulnerabilities - numberOfCheckedVulnerabilities;
 
+        request.setAttribute(PortalConstants.VULNERABILITY_ACTIONS, vulnerabilityActions);
         request.setAttribute(PortalConstants.VULNERABILITY_RATINGS, vulnerabilityRatings);
         request.setAttribute(PortalConstants.VULNERABILITY_CHECKSTATUS_TOOLTIPS, vulnerabilityTooltips);
         request.setAttribute(PortalConstants.NUMBER_OF_UNCHECKED_VULNERABILITIES, numberOfUncheckedVulnerabilities);

@@ -425,12 +425,14 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
         vulnCheckStatus.setCheckedOn(SW360Utils.getCreatedOn());
         vulnCheckStatus.setVulnerabilityRating(VulnerabilityRatingForProject.IRRELEVANT);
         vulnCheckStatus.setComment("Lorem Ipsum");
+        vulnCheckStatus.setProjectAction("Lorem Ipsum");
 
         VulnerabilityCheckStatus vulnCheckStatus1 = new VulnerabilityCheckStatus();
         vulnCheckStatus1.setCheckedBy("admin@sw360.org");
         vulnCheckStatus1.setCheckedOn(SW360Utils.getCreatedOn());
         vulnCheckStatus1.setVulnerabilityRating(VulnerabilityRatingForProject.APPLICABLE);
         vulnCheckStatus1.setComment("Lorem Ipsum");
+        vulnCheckStatus1.setProjectAction("Lorem Ipsum");
 
         List<VulnerabilityCheckStatus> vulCheckStatuses = new ArrayList<VulnerabilityCheckStatus>();
         vulCheckStatuses.add(vulnCheckStatus);
@@ -927,7 +929,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                         ),
                         responseFields(
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]priority").description("The priority of vulnerability"),
-                                fieldWithPath("_embedded.sw360:vulnerabilityDToes[]action").description("The action of vulnerability"),
+                                fieldWithPath("_embedded.sw360:vulnerabilityDToes[]projectAction").description("The action of vulnerability"),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]projectRelevance").description("The relevance of project of the vulnerability, possible values are: " + Arrays.asList(VulnerabilityRatingForProject.values())),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]comment").description("Any message to added while updating project vulnerabilities"),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]intReleaseId").description("The release id"),
@@ -949,6 +951,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
         vulDtoMap.put("projectRelevance", "IRRELEVANT");
         vulDtoMap.put("comment", "Lorem Ipsum");
         vulDtoMap.put("intReleaseId", "21055");
+        vulDtoMap.put("projectAction", "Lorem Ipsum");
         List<Map<String, String>> vulDtoMaps = new ArrayList<Map<String, String>>();
         vulDtoMaps.add(vulDtoMap);
         String accessToken = TestHelper.getAccessToken(mockMvc, testUserId, testUserPassword);
@@ -966,6 +969,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]projectRelevance").description("The relevance of project of the vulnerability, possible values are: " + Arrays.asList(VulnerabilityRatingForProject.values())),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]intReleaseId").description("The release id"),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes[]comment").description("Any message to add while updating project vulnerabilities"),
+                                fieldWithPath("_embedded.sw360:vulnerabilityDToes[]projectAction").description("The action of vulnerability"),
                                 fieldWithPath("_embedded.sw360:vulnerabilityDToes").description("An array of <<resources-vulnerabilities, Vulnerability resources>>"),
                                 fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources")
                         )));

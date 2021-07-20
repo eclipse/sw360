@@ -11,7 +11,6 @@
 <%@ page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil" %>
 <%@ page import="javax.portlet.PortletRequest" %>
 <%@ page import="org.eclipse.sw360.datahandler.thrift.RequestStatus" %>
-<%@ page import="org.eclipse.sw360.datahandler.thrift.vulnerabilities.VulnerabilityRatingForProject" %>
 <%@ page import="org.eclipse.sw360.portal.common.PortalConstants" %>
 
 <portlet:resourceURL var="updateProjectVulnerabilitiesURL">
@@ -79,11 +78,9 @@
                     </table>
                     <core_rt:if test="${writeAccessUser}">
                         <div class="form-group">
-                            <label for="rating-change-for-selected"><liferay-ui:message key="change.rating.of.selected.vulnerabilities.to" /></label>
-                            <select id="rating-change-for-selected" class="form-control" name="<portlet:namespace/><%=VulnerabilityRatingForProject.class%>">
-                                <sw360:DisplayEnumOptions type="<%=VulnerabilityRatingForProject.class%>" inQuotes="true"/>
-                            </select>
-                            <button id="apply-to-selected" type="button" class="btn btn-primary"><liferay-ui:message key="change.rating" /></button>
+                            <label for="rating-change-for-selected"><liferay-ui:message key="change.rating.and.action.of.selected.vulnerabilities" />
+                                <button id="apply-to-selected" type="button" class="btn btn-primary"><liferay-ui:message key="change" /></button>
+                            </label>
                         </div>
                     </core_rt:if>
                 </form>
@@ -185,7 +182,7 @@
                             text: "<sw360:DisplayEnum value="${vulnerabilityRatings.get(vulnerability.externalId).get(vulnerability.intReleaseId)}"/>",
                             tooltip: "<sw360:out value="${vulnerabilityCheckstatusTooltips.get(vulnerability.externalId).get(vulnerability.intReleaseId)}"/>"
                         },
-                        action: "<sw360:out value="${vulnerability.action}"/>"
+                        action: "<sw360:out value="${vulnerabilityActions.get(vulnerability.externalId).get(vulnerability.intReleaseId)}"/>"
                     });
                 </core_rt:forEach>
             </core_rt:if>
@@ -227,17 +224,17 @@
         <core_rt:if test="${writeAccessUser}">
             function batchChangeRating() {
                 var selectedRows = vulnerabilityTable.rows('.selected');
-                var selectedValue = $("#rating-change-for-selected").children("option:selected");
-
-                var newValue = selectedValue.val();
-                var newValueText = selectedValue.text();
-
+                $("#action").removeClass("d-none");
+                $("#rating").removeClass("d-none");
                 var $dialog = dialog.open('#vulnerabilityDialog', {
                     button: 'Change Rating',
                     vulnerabilityCount: selectedRows.data().length,
-                    verification: newValueText
+                    /* verification: newValueText */
                 }, function(submit, callback, data) {
-                    executeRatingChange(selectedRows, newValue, newValueText, data.comment).then(function() {
+                    var selectedValue = $("#rating-change-for-selected").children("option:selected");
+                    var newValue = selectedValue.val();
+                    var newValueText = selectedValue.text();
+                    executeRatingChange(selectedRows, newValue, newValueText, data.comment, data.action).then(function() {
                         callback(true);
                     }).catch(function(error) {
                         $dialog.alert(error);
@@ -246,7 +243,7 @@
                 });
             }
 
-            function executeRatingChange(selectedRows, newValue, newValueText, comment) {
+            function executeRatingChange(selectedRows, newValue, newValueText, comment, action) {
                 var vulnerabilityIds = [];
                 var releaseIds = [];
 
@@ -261,6 +258,7 @@
                 data["<portlet:namespace/><%=PortalConstants.RELEASE_IDS%>"] = releaseIds;
                 data["<portlet:namespace/><%=PortalConstants.VULNERABILITY_RATING_VALUE%>"] = newValue;
                 data["<portlet:namespace/><%=PortalConstants.VULNERABILITY_RATING_COMMENT%>"] = comment;
+                data["<portlet:namespace/><%=PortalConstants.VULNERABILITY_RATING_ACTION%>"] = action;
 
                 return new Promise(function(resolve, reject) {
                     $.ajax({

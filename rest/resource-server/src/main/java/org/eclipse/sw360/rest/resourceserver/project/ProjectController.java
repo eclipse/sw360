@@ -398,15 +398,17 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
 
         final List<Resource<VulnerabilityDTO>> vulnerabilityResources = new ArrayList<>();
         for (final VulnerabilityDTO vulnerabilityDTO : allVulnerabilityDTOs) {
-            String comment = "";
+            String comment = "", action = "";
             Map<String, Map<String, VulnerabilityRatingForProject>> vulRatingProj = vulnerabilityService.fillVulnerabilityMetadata(vulnerabilityDTO, projectVulnerabilityRating);
             vulnerabilityDTO.setProjectRelevance(vulRatingProj.get(vulnerabilityDTO.externalId).get(vulnerabilityDTO.intReleaseId).toString());
             Map<String, List<VulnerabilityCheckStatus>> relIdToCheckStatus = vulnerabilityIdToStatusHistory.get(vulnerabilityDTO.externalId);
             if(null != relIdToCheckStatus && relIdToCheckStatus.containsKey(vulnerabilityDTO.intReleaseId)) {
                 List<VulnerabilityCheckStatus> checkStatus = relIdToCheckStatus.get(vulnerabilityDTO.intReleaseId);
                 comment = checkStatus.get(checkStatus.size()-1).getComment();
+                action = checkStatus.get(checkStatus.size()-1).getProjectAction();
             }
             vulnerabilityDTO.setComment(comment);
+            vulnerabilityDTO.setAction(action);
             final Resource<VulnerabilityDTO> vulnerabilityDTOResource = new Resource<>(vulnerabilityDTO);
             vulnerabilityResources.add(vulnerabilityDTOResource);
         }
@@ -502,7 +504,7 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
             return new VulnerabilityCheckStatus().setCheckedBy(sw360User.getEmail())
                     .setCheckedOn(SW360Utils.getCreatedOn())
                     .setVulnerabilityRating(ThriftEnumUtils.stringToEnum(vulDto.getProjectRelevance(), VulnerabilityRatingForProject.class))
-                    .setComment(vulDto.getComment() == null ? "" : vulDto.getComment());
+                    .setComment(vulDto.getComment() == null ? "" : vulDto.getComment()).setProjectAction(vulDto.getAction());
 
         };
 

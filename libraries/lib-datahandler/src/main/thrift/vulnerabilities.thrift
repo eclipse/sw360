@@ -141,7 +141,8 @@ struct VulnerabilityCheckStatus{
     1: required string checkedOn,
     2: required string checkedBy,
     3: optional string comment,
-    4: required VulnerabilityRatingForProject vulnerabilityRating,
+    4: optional string projectAction,
+    5: required VulnerabilityRatingForProject vulnerabilityRating,
 }
 
 struct ProjectVulnerabilityRating{
