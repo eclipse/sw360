@@ -101,17 +101,17 @@ public class ProjectDatabaseHandlerTest {
         components.add(component2);
 
         projects = new ArrayList<>();
-        Project project1 = new Project().setId("P1").setName("project1").setLinkedProjects(ImmutableMap.of("P2", ProjectRelationship.CONTAINED)).setVisbility(Visibility.EVERYONE);
+        Project project1 = new Project().setId("P1").setName("project1").setLinkedProjects(ImmutableMap.of("P2", new ProjectProjectRelationship(ProjectRelationship.CONTAINED))).setVisbility(Visibility.EVERYONE);
         projects.add(project1);
-        Project project2 = new Project().setId("P2").setName("project2").setLinkedProjects(ImmutableMap.of("P3", ProjectRelationship.REFERRED, "P4", ProjectRelationship.CONTAINED)).setReleaseIdToUsage(ImmutableMap.of("R1A", newDefaultProjectReleaseRelationship(), "R1B", newDefaultProjectReleaseRelationship())).setVisbility(Visibility.EVERYONE);
+        Project project2 = new Project().setId("P2").setName("project2").setLinkedProjects(ImmutableMap.of("P3", new ProjectProjectRelationship(ProjectRelationship.REFERRED), "P4", new ProjectProjectRelationship(ProjectRelationship.CONTAINED))).setReleaseIdToUsage(ImmutableMap.of("R1A", newDefaultProjectReleaseRelationship(), "R1B", newDefaultProjectReleaseRelationship())).setVisbility(Visibility.EVERYONE);
         projects.add(project2);
-        Project project3 = new Project().setId("P3").setName("project3").setLinkedProjects(ImmutableMap.of("P2", ProjectRelationship.UNKNOWN)).setReleaseIdToUsage(ImmutableMap.of("R2A", newDefaultProjectReleaseRelationship(), "R2B", newDefaultProjectReleaseRelationship())).setVisbility(Visibility.EVERYONE);
+        Project project3 = new Project().setId("P3").setName("project3").setLinkedProjects(ImmutableMap.of("P2", new ProjectProjectRelationship(ProjectRelationship.UNKNOWN))).setReleaseIdToUsage(ImmutableMap.of("R2A", newDefaultProjectReleaseRelationship(), "R2B", newDefaultProjectReleaseRelationship())).setVisbility(Visibility.EVERYONE);
         projects.add(project3);
-        Project project4 = new Project().setId("P4").setName("project4").setLinkedProjects(ImmutableMap.of("P1", ProjectRelationship.UNKNOWN)).setVisbility(Visibility.EVERYONE);
+        Project project4 = new Project().setId("P4").setName("project4").setLinkedProjects(ImmutableMap.of("P1", new ProjectProjectRelationship(ProjectRelationship.UNKNOWN))).setVisbility(Visibility.EVERYONE);
         projects.add(project4);
-        Project project5 = new Project().setId("P5").setName("project5").setLinkedProjects(ImmutableMap.of("P6", ProjectRelationship.CONTAINED, "P7", ProjectRelationship.CONTAINED)).setVisbility(Visibility.EVERYONE);
+        Project project5 = new Project().setId("P5").setName("project5").setLinkedProjects(ImmutableMap.of("P6", new ProjectProjectRelationship(ProjectRelationship.CONTAINED), "P7", new ProjectProjectRelationship(ProjectRelationship.CONTAINED))).setVisbility(Visibility.EVERYONE);
         projects.add(project5);
-        Project project6 = new Project().setId("P6").setName("project6").setLinkedProjects(ImmutableMap.of("P7", ProjectRelationship.CONTAINED)).setVisbility(Visibility.EVERYONE);
+        Project project6 = new Project().setId("P6").setName("project6").setLinkedProjects(ImmutableMap.of("P7", new ProjectProjectRelationship(ProjectRelationship.CONTAINED))).setVisbility(Visibility.EVERYONE);
         projects.add(project6);
         Project project7 = new Project().setId("P7").setName("project7").setVisbility(Visibility.EVERYONE);
         projects.add(project7);
@@ -170,6 +170,7 @@ public class ProjectDatabaseHandlerTest {
 
         ProjectLink link3 = new ProjectLink("P3", "project3")
                 .setRelation(ProjectRelationship.REFERRED)
+                .setEnableSvm(true)
                 .setNodeId("P3")
                 .setParentNodeId("P2")
                 .setProjectType(ProjectType.CUSTOMER)
@@ -179,6 +180,7 @@ public class ProjectDatabaseHandlerTest {
                 .setSubprojects(Collections.emptyList());
         ProjectLink link4 = new ProjectLink("P4", "project4")
                 .setRelation(ProjectRelationship.CONTAINED)
+                .setEnableSvm(true)
                 .setNodeId("P4")
                 .setParentNodeId("P2")
                 .setProjectType(ProjectType.CUSTOMER)
@@ -187,6 +189,7 @@ public class ProjectDatabaseHandlerTest {
                 .setSubprojects(Collections.emptyList());
         ProjectLink link2 = new ProjectLink("P2", "project2")
                 .setRelation(ProjectRelationship.CONTAINED)
+                .setEnableSvm(true)
                 .setNodeId("P2")
                 .setParentNodeId("P1")
                 .setProjectType(ProjectType.CUSTOMER)
@@ -196,6 +199,7 @@ public class ProjectDatabaseHandlerTest {
                 .setSubprojects(Arrays.asList(link3, link4));
         ProjectLink link1 = new ProjectLink("P1", "project1")
                 .setRelation(ProjectRelationship.UNKNOWN)
+                .setEnableSvm(true)
                 .setNodeId("P1")
                 .setProjectType(ProjectType.CUSTOMER)
                 .setState(ProjectState.ACTIVE)
@@ -223,6 +227,7 @@ public class ProjectDatabaseHandlerTest {
 
         ProjectLink link7_5 = new ProjectLink("P7", "project7")
                 .setRelation(ProjectRelationship.CONTAINED)
+                .setEnableSvm(true)
                 .setNodeId("P7")
                 .setProjectType(ProjectType.CUSTOMER)
                 .setState(ProjectState.ACTIVE)
@@ -230,6 +235,7 @@ public class ProjectDatabaseHandlerTest {
                 .setParentNodeId("P5");
         ProjectLink link7_6 = new ProjectLink("P7", "project7")
                 .setRelation(ProjectRelationship.CONTAINED)
+                .setEnableSvm(true)
                 .setNodeId("P7")
                 .setProjectType(ProjectType.CUSTOMER)
                 .setState(ProjectState.ACTIVE)
@@ -238,6 +244,7 @@ public class ProjectDatabaseHandlerTest {
 
         ProjectLink link6 = new ProjectLink("P6", "project6")
                 .setRelation(ProjectRelationship.CONTAINED)
+                .setEnableSvm(true)
                 .setNodeId("P6")
                 .setParentNodeId("P5")
                 .setProjectType(ProjectType.CUSTOMER)
@@ -246,6 +253,7 @@ public class ProjectDatabaseHandlerTest {
                 .setSubprojects(Arrays.asList(link7_6));
         ProjectLink link5 = new ProjectLink("P5", "project5")
                 .setRelation(ProjectRelationship.UNKNOWN)
+                .setEnableSvm(true)
                 .setNodeId("P5")
                 .setProjectType(ProjectType.CUSTOMER)
                 .setState(ProjectState.ACTIVE)
@@ -275,6 +283,7 @@ public class ProjectDatabaseHandlerTest {
                 .setRelation(ProjectRelationship.CONTAINED)
                 .setNodeId("P7")
                 .setProjectType(ProjectType.CUSTOMER)
+                .setEnableSvm(true)
                 .setState(ProjectState.ACTIVE)
                 .setTreeLevel(1)
                 .setParentNodeId("P5");
@@ -284,11 +293,13 @@ public class ProjectDatabaseHandlerTest {
                 .setNodeId("P6")
                 .setParentNodeId("P5")
                 .setProjectType(ProjectType.CUSTOMER)
+                .setEnableSvm(true)
                 .setState(ProjectState.ACTIVE)
                 .setTreeLevel(1)
                 .setSubprojects(Collections.emptyList());
         ProjectLink link5 = new ProjectLink("P5", "project5")
                 .setRelation(ProjectRelationship.UNKNOWN)
+                .setEnableSvm(true)
                 .setNodeId("P5")
                 .setProjectType(ProjectType.CUSTOMER)
                 .setState(ProjectState.ACTIVE)

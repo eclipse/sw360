@@ -18,6 +18,7 @@ import org.eclipse.sw360.datahandler.thrift.components.COTSDetails;
 import org.eclipse.sw360.datahandler.thrift.components.ClearingInformation;
 import org.eclipse.sw360.datahandler.thrift.components.EccInformation;
 import org.eclipse.sw360.datahandler.thrift.components.Repository;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.ObligationStatusInfo;
 import org.eclipse.sw360.datahandler.thrift.vendors.Vendor;
 
@@ -225,5 +226,13 @@ public class DatabaseMixInForChangeLog {
         "setCreatedBy"
     })
     public static abstract class ProjectReleaseRelationshipMixin extends ProjectReleaseRelationship {
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnoreProperties({
+        "setEnableSvm",
+        "setProjectRelationship"
+    })
+    public static abstract class ProjectProjectRelationshipMixin extends ProjectProjectRelationship {
     }
 }

@@ -46,6 +46,7 @@ import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseInfoParsingResult
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseNameWithText;
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.OutputFormatInfo;
 import org.eclipse.sw360.datahandler.thrift.licenses.License;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectLink;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
@@ -833,7 +834,7 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
             restControllerHelper.addEmbeddedReleases(halProject, releaseIdToUsage.keySet(), releaseService, sw360User);
         }
 
-        Map<String, ProjectRelationship> linkedProjects = sw360Project.getLinkedProjects();
+        Map<String, ProjectProjectRelationship> linkedProjects = sw360Project.getLinkedProjects();
         if (linkedProjects != null) {
             restControllerHelper.addEmbeddedProject(halProject, linkedProjects.keySet(), projectService, sw360User);
         }
@@ -910,7 +911,7 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
 
     private HalResource<Project> createHalProjectResourceWithAllDetails(Project sw360Project, User sw360User,
             Map<String, Project> mapOfProjects, boolean isAllAccessibleProjectFetched) {
-        Map<String, ProjectRelationship> linkedProjects = sw360Project.getLinkedProjects();
+        Map<String, ProjectProjectRelationship> linkedProjects = sw360Project.getLinkedProjects();
         if (!isLinkedProjectsVisible(linkedProjects, sw360User, mapOfProjects, isAllAccessibleProjectFetched)) {
             return null;
         }
@@ -937,7 +938,7 @@ public class ProjectController implements ResourceProcessor<RepositoryLinksResou
         return halProject;
     }
 
-    private boolean isLinkedProjectsVisible(Map<String, ProjectRelationship> linkedProjects, User sw360User,
+    private boolean isLinkedProjectsVisible(Map<String, ProjectProjectRelationship> linkedProjects, User sw360User,
             Map<String, Project> mapOfProjects, boolean isAllAccessibleProjectFetched) {
         if (isAllAccessibleProjectFetched && !CommonUtils.isNullOrEmptyMap(linkedProjects)) {
             for (String linkedProjectId : linkedProjects.keySet()) {

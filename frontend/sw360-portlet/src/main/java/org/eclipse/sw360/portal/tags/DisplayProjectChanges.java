@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.thrift.TException;
 import org.apache.thrift.meta_data.FieldMetaData;
 import org.eclipse.sw360.datahandler.thrift.ThriftClients;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectLink;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
@@ -187,13 +188,13 @@ public class DisplayProjectChanges extends UserAwareTag {
     }
 
     private void renderProjectLinkList(StringBuilder display,
-                                       Map<String, ProjectRelationship> projectRelationshipMap,
+                                       Map<String, ProjectProjectRelationship> projectRelationshipMap,
                                        Set<String> projectIds,
                                        String msg,
                                        User user) {
         if (projectIds.isEmpty()) return;
 
-        Map<String, ProjectRelationship> filteredMap = new HashMap<>();
+        Map<String, ProjectProjectRelationship> filteredMap = new HashMap<>();
         for(String id : projectIds){
             filteredMap.put(id, projectRelationshipMap.get(id));
         }
@@ -202,7 +203,7 @@ public class DisplayProjectChanges extends UserAwareTag {
             ProjectService.Iface client = new ThriftClients().makeProjectClient();
             for (ProjectLink projectLink : client.getLinkedProjects(filteredMap, user)) {
                 candidate.append(
-                        String.format("<tr><td>%s</td><td>%s</td></tr>", projectLink.getName(), projectLink.getRelation()));
+                        String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>", projectLink.getName(), projectLink.getRelation(), projectLink.isEnableSvm()));
             }
         } catch (TException ignored) {
         }
@@ -213,8 +214,9 @@ public class DisplayProjectChanges extends UserAwareTag {
         if (!tableContent.isEmpty()) {
 
             display.append(String.format("<table class=\"%s\" id=\"%s%s\" >", tableClasses, idPrefix, msg));
-            display.append(String.format("<thead><tr><th colspan=\"2\">%s</th></tr>" +
-                    "<tr><th>"+LanguageUtil.get(resourceBundle,"project.name")+"</th><th>"+LanguageUtil.get(resourceBundle,"project.relationship")+"</th></tr></thead><tbody>", msg));
+            display.append(String.format("<thead><tr><th colspan=\"3\">%s</th></tr>" +
+                    "<tr><th>"+LanguageUtil.get(resourceBundle,"project.name")+"</th><th>"+LanguageUtil.get(resourceBundle,"project.relationship")+"</th>" +
+                    "<th>"+LanguageUtil.get(resourceBundle,"enable.svm") + "</th>"+ "</tr></thead><tbody>", msg));
             display.append(tableContent);
             display.append("</tbody></table>");
         }
@@ -222,9 +224,9 @@ public class DisplayProjectChanges extends UserAwareTag {
 
 
     private void renderProjectLinkListCompare(StringBuilder display,
-                                              Map<String, ProjectRelationship> oldProjectRelationshipMap,
-                                              Map<String, ProjectRelationship> deleteProjectRelationshipMap,
-                                              Map<String, ProjectRelationship> updateProjectRelationshipMap,
+                                              Map<String, ProjectProjectRelationship> oldProjectRelationshipMap,
+                                              Map<String, ProjectProjectRelationship> deleteProjectRelationshipMap,
+                                              Map<String, ProjectProjectRelationship> updateProjectRelationshipMap,
                                               Set<String> projectIds, User user) {
         if (projectIds.isEmpty()) return;
 
@@ -232,11 +234,11 @@ public class DisplayProjectChanges extends UserAwareTag {
         try {
             ProjectService.Iface client = new ThriftClients().makeProjectClient();
 
-            Map<String, ProjectRelationship> changeMap= new HashMap<>();
+            Map<String, ProjectProjectRelationship> changeMap= new HashMap<>();
 
             for (String projectId : projectIds) {
-                ProjectRelationship updateProjectRelationship = updateProjectRelationshipMap.get(projectId);
-                ProjectRelationship oldProjectRelationship = oldProjectRelationshipMap.get(projectId);
+                ProjectRelationship updateProjectRelationship = updateProjectRelationshipMap.get(projectId).getProjectRelationship();
+                ProjectRelationship oldProjectRelationship = oldProjectRelationshipMap.get(projectId).getProjectRelationship();
 
                 if (!updateProjectRelationship.equals(oldProjectRelationship)) {
                     changeMap.put(projectId, oldProjectRelationshipMap.get(projectId));
@@ -244,14 +246,21 @@ public class DisplayProjectChanges extends UserAwareTag {
             }
             //! This code doubling is done to reduce the database queries. I.e. one big query instead of multiple small ones
             for (ProjectLink projectLink : client.getLinkedProjects(changeMap, user)) {
-                ProjectRelationship updateProjectRelationship = updateProjectRelationshipMap.get(projectLink.getId());
-                ProjectRelationship deleteProjectRelationship = deleteProjectRelationshipMap.get(projectLink.getId());
-                ProjectRelationship oldProjectRelationship = oldProjectRelationshipMap.get(projectLink.getId());
-                candidate.append(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+                ProjectRelationship updateProjectRelationship = updateProjectRelationshipMap.get(projectLink.getId()).getProjectRelationship();
+                ProjectRelationship deleteProjectRelationship = deleteProjectRelationshipMap.get(projectLink.getId()).getProjectRelationship();
+                ProjectRelationship oldProjectRelationship = oldProjectRelationshipMap.get(projectLink.getId()).getProjectRelationship();
+                boolean updateEnableSvm = updateProjectRelationshipMap.get(projectLink.getId()).isEnableSvm();
+                boolean deleteEnableSvm = deleteProjectRelationshipMap.get(projectLink.getId()).isEnableSvm();
+                boolean oldEnableSvm = oldProjectRelationshipMap.get(projectLink.getId()).isEnableSvm();
+
+                candidate.append(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                         projectLink.getName(),
                         oldProjectRelationship,
                         deleteProjectRelationship,
-                        updateProjectRelationship));
+                        updateProjectRelationship,
+                        oldEnableSvm,
+                        deleteEnableSvm,
+                        updateEnableSvm));
             }
 
         } catch (TException ignored) {
@@ -263,11 +272,14 @@ public class DisplayProjectChanges extends UserAwareTag {
 
         if (!tableContent.isEmpty()) {
             display.append(String.format("<table class=\"%s\" id=\"%sUpdated\" >", tableClasses, idPrefix));
-            display.append("<thead><tr><th colspan=\"4\">"+LanguageUtil.get(resourceBundle,"updated.project.links")+"</th></tr>" +
+            display.append("<thead><tr><th colspan=\"7\">"+LanguageUtil.get(resourceBundle,"updated.project.links")+"</th></tr>" +
                     "<tr><th>"+LanguageUtil.get(resourceBundle,"project.name")+"</th>" +
                     "<th>"+LanguageUtil.get(resourceBundle,"current.project.relationship")+"</th>" +
                     "<th>"+LanguageUtil.get(resourceBundle,"deleted.project.relationship")+"</th>" +
-                    "<th>"+LanguageUtil.get(resourceBundle,"suggested.project.relationship")+"</th></tr>" +
+                    "<th>"+LanguageUtil.get(resourceBundle,"suggested.project.relationship")+"</th>" +
+                    "<th>"+LanguageUtil.get(resourceBundle,"current.linked.project.enable.svm")+"</th>" +
+                    "<th>"+LanguageUtil.get(resourceBundle,"deleted.linked.project.enable.svm")+"</th>" +
+                    "<th>"+LanguageUtil.get(resourceBundle,"suggested.linked.project.enable.svm")+"</th></tr>" +
                     "</thead><tbody>");
             display.append(tableContent);
             display.append("</tbody></table>");
@@ -277,7 +289,9 @@ public class DisplayProjectChanges extends UserAwareTag {
     private void renderReleaseIdToUsage(StringBuilder display, User user) {
 
        if (ensureSomethingTodoAndNoNullReleaseIdUsage()) {
-
+           if (actual.getReleaseIdToUsage() == null) {
+               actual.setReleaseIdToUsage(new HashMap<>());
+           }
            Set<String> changedReleaseIds = Sets.intersection(
                    additions.getReleaseIdToUsage().keySet(),
                    deletions.getReleaseIdToUsage().keySet());

@@ -31,6 +31,7 @@ import org.eclipse.sw360.datahandler.thrift.components.Release;
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseInfoFile;
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.OutputFormatInfo;
 import org.eclipse.sw360.datahandler.thrift.licenseinfo.OutputFormatVariant;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectState;
@@ -143,7 +144,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
         given(this.attachmentServiceMock.updateAttachment(anyObject(), anyObject(), anyObject(), anyObject())).willReturn(att2);
 
         Map<String, ProjectReleaseRelationship> linkedReleases = new HashMap<>();
-        Map<String, ProjectRelationship> linkedProjects = new HashMap<>();
+        Map<String, ProjectProjectRelationship> linkedProjects = new HashMap<>();
         ProjectReleaseRelationship projectReleaseRelationship = new ProjectReleaseRelationship(CONTAINED, MAINLINE)
                 .setComment("Test Comment").setCreatedOn("2020-08-05").setCreatedBy("admin@sw360.org");
         ProjectReleaseRelationship projectReleaseRelationshipResponseBody = projectReleaseRelationship.deepCopy()
@@ -198,7 +199,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
         project.setRemarksAdditionalRequirements("Lorem Ipsum");
         linkedReleases.put("3765276512", projectReleaseRelationship);
         project.setReleaseIdToUsage(linkedReleases);
-        linkedProjects.put("376570", ProjectRelationship.CONTAINED);
+        linkedProjects.put("376570", new ProjectProjectRelationship(ProjectRelationship.CONTAINED).setEnableSvm(true));
         project.setLinkedProjects(linkedProjects);
         project.setAttachments(attachmentList);
         project.setSecurityResponsibles(new HashSet<>(Arrays.asList("securityresponsible1@sw360.org", "securityresponsible2@sw360.org")));
@@ -593,7 +594,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("_embedded.sw360:projects[]preevaluationDeadline").description("The project preevaluation deadline"),
                                 fieldWithPath("_embedded.sw360:projects[]systemTestStart").description("Date of the project system begin phase"),
                                 fieldWithPath("_embedded.sw360:projects[]systemTestEnd").description("Date of the project system end phase"),
-                                fieldWithPath("_embedded.sw360:projects[]linkedProjects").description("The relationship between linked projects of the project"),
+                                fieldWithPath("_embedded.sw360:projects[]linkedProjects").description("The `linked project id` - metadata of linked projects (`enableSvm` - whether linked projects will be part of SVM, `projectRelationship` - relationship between linked project and the project. Possible values: " + Arrays.asList(ProjectRelationship.values())),
                                 fieldWithPath("_embedded.sw360:projects[]linkedReleases").description("The relationship between linked releases of the project"),
                                 fieldWithPath("_embedded.sw360:projects[]securityResponsibles").description("An array of users responsible for security of the project."),
                                 fieldWithPath("_embedded.sw360:projects[]projectResponsible").description("A user who is responsible for the project."),
@@ -656,7 +657,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("preevaluationDeadline").description("The project preevaluation deadline"),
                                 fieldWithPath("systemTestStart").description("Date of the project system begin phase"),
                                 fieldWithPath("systemTestEnd").description("Date of the project system end phase"),
-                                fieldWithPath("linkedProjects").description("The relationship between linked projects of the project"),
+                                fieldWithPath("linkedProjects").description("The `linked project id` - metadata of linked projects (`enableSvm` - whether linked projects will be part of SVM, `projectRelationship` - relationship between linked project and the project. Possible values: " + Arrays.asList(ProjectRelationship.values())),
                                 fieldWithPath("linkedReleases").description("The relationship between linked releases of the project"),
                                 fieldWithPath("securityResponsibles").description("An array of users responsible for security of the project."),
                                 fieldWithPath("projectResponsible").description("A user who is responsible for the project."),
@@ -1077,8 +1078,8 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
         Map<String, ProjectReleaseRelationship> releaseIdToUsage = new HashMap<>();
         releaseIdToUsage.put("3765276512", new ProjectReleaseRelationship(CONTAINED, OPEN));
         project.put("linkedReleases", releaseIdToUsage);
-        Map<String, ProjectRelationship> linkedProjects = new HashMap<>();
-        linkedProjects.put("376576", ProjectRelationship.CONTAINED);
+        Map<String, ProjectProjectRelationship> linkedProjects = new HashMap<>();
+        linkedProjects.put("376576", new ProjectProjectRelationship(ProjectRelationship.CONTAINED).setEnableSvm(true));
         project.put("linkedProjects", linkedProjects);
         project.put("leadArchitect", "lead@sw360.org");
         project.put("moderators", new HashSet<>(Arrays.asList("moderator1@sw360.org", "moderator2@sw360.org")));
@@ -1101,7 +1102,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                                 fieldWithPath("visibility").description("The project visibility, possible values are: " + Arrays.asList(Visibility.values())),
                                 fieldWithPath("projectType").description("The project type, possible values are: " + Arrays.asList(ProjectType.values())),
                                 fieldWithPath("linkedReleases").description("The relationship between linked releases of the project"),
-                                fieldWithPath("linkedProjects").description("The relationship between linked projects of the project"),
+                                fieldWithPath("linkedProjects").description("The `linked project id` - metadata of linked projects (`enableSvm` - whether linked projects will be part of SVM, `projectRelationship` - relationship between linked project and the project. Possible values: " + Arrays.asList(ProjectRelationship.values())),
                                 fieldWithPath("leadArchitect").description("The lead architect of the project"),
                                 fieldWithPath("contributors").description("An array of contributors to the project"),
                                 fieldWithPath("moderators").description("An array of moderators"),
@@ -1194,7 +1195,7 @@ public class ProjectSpecTest extends TestRestDocsSpecBase {
                         fieldWithPath("state").description("The project active status, possible values are: " + Arrays.asList(ProjectState.values())),
                         fieldWithPath("phaseOutSince").description("The project phase-out date"),
                         fieldWithPath("linkedProjects")
-                                .description("The relationship between linked projects of the project"),
+                                .description("The `linked project id` - metadata of linked projects (`enableSvm` - whether linked projects will be part of SVM, `projectRelationship` - relationship between linked project and the project. Possible values: " + Arrays.asList(ProjectRelationship.values())),
                         fieldWithPath("linkedReleases")
                                 .description("The relationship between linked releases of the project"),
                         fieldWithPath("securityResponsibles")

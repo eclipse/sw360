@@ -72,6 +72,11 @@ enum ProjectClearingState {
     CLOSED = 2,
 }
 
+struct ProjectProjectRelationship {
+    1: required ProjectRelationship projectRelationship,
+    2: optional bool enableSvm = true;
+}
+
 struct Project {
 
     // General information
@@ -112,7 +117,7 @@ struct Project {
     133: optional string ownerCountry,
 
     // Linked objects
-    30: optional map<string, ProjectRelationship> linkedProjects,
+    30: optional map<string, ProjectProjectRelationship> linkedProjects,
     31: optional map<string, ProjectReleaseRelationship> releaseIdToUsage,
 
     // Admin data
@@ -163,6 +168,7 @@ struct ProjectLink {
     10: optional list<ReleaseLink> linkedReleases,
     11: optional list<ProjectLink> subprojects,
     12: optional i32 treeLevel, //zero-based level in the ProjectLink tree, i.e. root has level 0
+    14: optional bool enableSvm = true,
 }
 
 struct ProjectWithReleaseRelationTuple {
@@ -352,7 +358,7 @@ service ProjectService {
      * IMPORTANT:
      * this method is very inefficient as it loads whole DB repositories into memory; its use is dicouraged
      */
-    list<ProjectLink> getLinkedProjects(1:  map<string, ProjectRelationship> relations, 2: User user);
+    list<ProjectLink> getLinkedProjects(1:  map<string, ProjectProjectRelationship> relations, 2: User user);
 
     /**
      * get a list of duplicated projects matched by `.printName()`

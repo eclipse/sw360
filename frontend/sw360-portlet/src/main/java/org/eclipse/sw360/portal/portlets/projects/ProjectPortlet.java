@@ -1124,7 +1124,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
 
             Project project = projectClient.getProjectById(projectId, user);
 
-            Map<String, ProjectRelationship> linkedProjects = CommonUtils.nullToEmptyMap(project.getLinkedProjects());
+            Map<String, ProjectProjectRelationship> linkedProjects = CommonUtils.nullToEmptyMap(project.getLinkedProjects());
             for (String linkedProjectId : linkedProjects.keySet()) {
                 Project linkedProject = projectClient.getProjectById(linkedProjectId, user);
 
@@ -2833,7 +2833,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
                         continue;
                     }
 
-                    project.putToLinkedProjects(sourceProjectId, ProjectRelationship.CONTAINED);
+                    project.putToLinkedProjects(sourceProjectId, new ProjectProjectRelationship(ProjectRelationship.CONTAINED));
                     String cyclicLinkedProjectPath = client.getCyclicLinkedProjectPath(project, user);
                     if (!isNullEmptyOrWhitespace(cyclicLinkedProjectPath)) {
                         jsonObject = buildResponse(srcProject, project, CYCLIC_LINKED_PROJECT + cyclicLinkedProjectPath,
@@ -2909,7 +2909,7 @@ public class ProjectPortlet extends FossologyAwarePortlet {
         try {
             user.setCommentMadeDuringModerationRequest(comment);
             Project project = client.getProjectByIdForEdit(projectId, user);
-            project.putToLinkedProjects(sourceProjectId, ProjectRelationship.CONTAINED);
+            project.putToLinkedProjects(sourceProjectId, new ProjectProjectRelationship(ProjectRelationship.CONTAINED));
             status = client.updateProject(project, user);
             if (RequestStatus.SENT_TO_MODERATOR.equals(status)) {
                 jsonObject.put("success", true);

@@ -22,6 +22,7 @@ import org.eclipse.sw360.datahandler.thrift.RequestSummary;
 import org.eclipse.sw360.datahandler.thrift.attachments.Attachment;
 import org.eclipse.sw360.datahandler.thrift.components.ReleaseClearingStatusData;
 import org.eclipse.sw360.datahandler.thrift.projects.ClearingRequest;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectProjectRelationship;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectLink;
 import org.eclipse.sw360.datahandler.thrift.projects.ObligationList;
@@ -265,7 +266,7 @@ public class ProjectHandler implements ProjectService.Iface {
     }
 
     @Override
-    public List<ProjectLink> getLinkedProjects(Map<String, ProjectRelationship> relations, User user) throws TException {
+    public List<ProjectLink> getLinkedProjects(Map<String, ProjectProjectRelationship> relations, User user) throws TException {
         assertNotNull(relations);
         assertUser(user);
 
