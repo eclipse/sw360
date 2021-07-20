@@ -481,22 +481,19 @@ public class ModerationPortlet extends FossologyAwarePortlet {
             if (CommonUtils.isNotNullEmptyOrWhitespace(clearingRequest.getProjectId()) ) {
                 ProjectService.Iface projectClient = thriftClients.makeProjectClient();
                 Project project = projectClient.getProjectById(clearingRequest.getProjectId(), UserCacheHolder.getUserFromRequest(request));
-                String babl = CommonUtils.nullToEmptyMap(project.getAdditionalData()).get("BA BL");
-                if (CommonUtils.isNotNullEmptyOrWhitespace(babl)) {
-                    project.setBusinessUnit(babl);
-                }
-                request.setAttribute(PROJECT, project);
-
                 DocumentPermissions<Project> projectPermission = makePermission(project, user);
                 ImmutableSet<UserGroup> clearingExpertRoles = ImmutableSet.of(UserGroup.CLEARING_EXPERT);
                 ImmutableSet<UserGroup> adminRoles = ImmutableSet.of(UserGroup.ADMIN, UserGroup.SW360_ADMIN);
-
                 request.setAttribute(IS_CLEARING_EXPERT,
                         isPrimaryRoleOfUserAtLeastClearingExpert
                                 || projectPermission.isUserOfOwnGroupHasRole(clearingExpertRoles, UserGroup.CLEARING_EXPERT)
                                 || projectPermission.isUserOfOwnGroupHasRole(adminRoles, UserGroup.ADMIN));
                 request.setAttribute(WRITE_ACCESS_USER, projectPermission.isActionAllowed(RequestedAction.WRITE));
-
+                String babl = CommonUtils.nullToEmptyMap(project.getAdditionalData()).get("BA BL");
+                if (CommonUtils.isNotNullEmptyOrWhitespace(babl)) {
+                    project.setBusinessUnit(babl);
+                }
+                request.setAttribute(PROJECT, project);
                 List<Project> projects = getWithFilledClearingStateSummary(projectClient, Lists.newArrayList(project), user);
                 Project projWithCsSummary = projects.get(0);
                 if (null != projWithCsSummary && null != projWithCsSummary.getReleaseClearingStateSummary()) {

@@ -89,7 +89,7 @@
                     <button type="button" id="reOpenRequest" class="btn btn-primary"><liferay-ui:message key="reopen.request" /></button>
                 </div>
             </core_rt:if>
-            <core_rt:if test="${isEditable}">
+            <core_rt:if test="${isEditableForClearingTeam or isEditableForRequestingUser}">
 	           <div class="btn-group" role="group">
 	               <button type="button" id="formSubmit" class="btn btn-primary"><liferay-ui:message key="update.request" /></button>
 	           </div>
